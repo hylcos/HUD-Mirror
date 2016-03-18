@@ -98,14 +98,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CalendarItem.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="GCal.cs" />
     <Compile Include="Headline.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Nos.cs" />
-    <Compile Include="NuNl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebUrl.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

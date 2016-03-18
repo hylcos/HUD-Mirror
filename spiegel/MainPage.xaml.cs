@@ -27,15 +27,19 @@ namespace spiegel
     public sealed partial class MainPage : Page
     {
         private Nos nosFeed;
-       
+        private GCal gCal;
 
 
         private int i = 0;
         public MainPage()
         {
             this.InitializeComponent();
+
             nosFeed = new Nos();
-            updateTempThread();
+            gCal = new GCal("AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A");
+
+            updateCalendarThread();
+            updateTempThread(); 
         }
 
         private async void updateTempThread()
@@ -46,6 +50,24 @@ namespace spiegel
                 temperature.Text = nosHeadlines.First().title;
             }
             catch(UnableToParseFeedException e)
+            {
+
+            }
+        }
+        private async void updateCalendarThread()
+        {
+
+            try
+            {
+                CalendarItem[] calendarItems = await gCal.getLatestItems();
+                String text = "";
+                foreach(CalendarItem item in calendarItems)
+                {
+                    text += item.ToString() + "\n";
+                }
+                CalBox.Text = text;
+            }
+            catch (UnableToParseFeedException e)
             {
 
             }

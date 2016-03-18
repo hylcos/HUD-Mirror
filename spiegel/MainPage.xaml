@@ -5,12 +5,13 @@
     xmlns:local="using:spiegel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Height="1141" Width="667">
 
-    <Grid Background="Black">
-        <TextBlock x:Name="temperature" HorizontalAlignment="Right" Margin="0,43,137,0" TextWrapping="Wrap" Text="--" VerticalAlignment="Top" Foreground="White" FontFamily="Comic Sans MS" FontSize="96"/>
-        <TextBlock HorizontalAlignment="Left" Margin="908,43,0,0" TextWrapping="Wrap" Text="°" VerticalAlignment="Top" Foreground="White" FontFamily="Comic Sans MS" FontSize="96"/>
-        <WebView Name="webview" HorizontalAlignment="Left" Height="400" Margin="266,172,0,0" VerticalAlignment="Top" Width="500"/>
+    <Grid Background="Black" Margin="0,0,-1108,-437">
+        <TextBlock x:Name="temperature" HorizontalAlignment="Right" Margin="0,45.339,135.101,0" TextWrapping="Wrap" Text="--" VerticalAlignment="Top" Foreground="White" FontFamily="Comic Sans MS" FontSize="48" RenderTransformOrigin="0.5,0.5" Height="251.321" UseLayoutRounding="False" Width="271.798" d:LayoutRounding="Auto">
+
+        </TextBlock>
+        <TextBox x:Name="CalBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Height="1446" Width="492" FontSize="12" Foreground="White" BorderBrush="Black" SelectionHighlightColor="Black" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" Margin="10,132,0,0"/>
 
     </Grid>
 </Page>
