@@ -26,6 +26,8 @@ namespace spiegel
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private Config config;
+
         private Nos nosFeed;
         private GCal gCal;
 
@@ -34,6 +36,10 @@ namespace spiegel
         public MainPage()
         {
             this.InitializeComponent();
+
+            config = new Config();
+            
+
 
             nosFeed = new Nos();
             gCal = new GCal("AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A");
@@ -44,7 +50,7 @@ namespace spiegel
 
         private async void updateTempThread()
         {
-            
+
             try {
                 Headline[] nosHeadlines = await nosFeed.getHeadlines();
                 temperature.Text = nosHeadlines.First().title;
@@ -56,9 +62,11 @@ namespace spiegel
         }
         private async void updateCalendarThread()
         {
-
+            await config.LoadFromFile();
             try
             {
+                
+
                 CalendarItem[] calendarItems = await gCal.getLatestItems();
                 String text = "";
                 foreach(CalendarItem item in calendarItems)

@@ -99,6 +99,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="CalendarItem.cs" />
+    <Compile Include="Config.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="GCal.cs" />
     <Compile Include="Headline.cs" />
