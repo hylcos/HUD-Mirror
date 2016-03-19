@@ -5,13 +5,24 @@
     xmlns:local="using:spiegel"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Height="1141" Width="667">
+    mc:Ignorable="d" Height="768" Width="1024">
 
-    <Grid Background="Black" Margin="0,0,-1108,-437">
-        <TextBlock x:Name="temperature" HorizontalAlignment="Right" Margin="0,45.339,135.101,0" TextWrapping="Wrap" Text="--" VerticalAlignment="Top" Foreground="White" FontFamily="Comic Sans MS" FontSize="48" RenderTransformOrigin="0.5,0.5" Height="251.321" UseLayoutRounding="False" Width="271.798" d:LayoutRounding="Auto">
-
+    <Grid Background="Black" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto" HorizontalAlignment="Left" Width="1024">
+        <TextBlock x:Name="temperature" HorizontalAlignment="Right" Margin="0,-325,535,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Foreground="White" FontFamily="Comic Sans MS" FontSize="9.333" RenderTransformOrigin="0.5,0.5" Height="809" Width="166">
+            <TextBlock.RenderTransform>
+                <CompositeTransform Rotation="-90.342"/>
+            </TextBlock.RenderTransform>
         </TextBlock>
-        <TextBox x:Name="CalBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Height="1446" Width="492" FontSize="12" Foreground="White" BorderBrush="Black" SelectionHighlightColor="Black" RenderTransformOrigin="0.5,0.5" Background="{x:Null}" Margin="10,132,0,0"/>
+        <TextBlock x:Name="CalBox" HorizontalAlignment="Left" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="657.734" Width="253.926" RenderTransformOrigin="0.5,0.5" Margin="557.103,315.634,0,-205.368" UseLayoutRounding="False" d:LayoutRounding="Auto" SelectionHighlightColor="Black" Foreground="White" FontSize="9.333">
+            <TextBlock.RenderTransform>
+                <CompositeTransform Rotation="-90" ScaleY="1.028" ScaleX="0.973"/>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <TextBlock x:Name="weatherBox" HorizontalAlignment="Left" Margin="315,129,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="334" Width="270" RenderTransformOrigin="0.5,0.5" Foreground="White" FontSize="9.333">
+            <TextBlock.RenderTransform>
+                <CompositeTransform Rotation="-90"/>
+            </TextBlock.RenderTransform>
+        </TextBlock>
 
     </Grid>
 </Page>

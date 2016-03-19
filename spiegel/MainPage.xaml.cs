@@ -37,13 +37,14 @@ namespace spiegel
         {
             this.InitializeComponent();
 
-            config = new Config();
+           // config = new Config();
             
 
 
             nosFeed = new Nos();
             gCal = new GCal("AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A");
             weatherData = new WeatherData("11e536b32932b598cfb0b085d19fb203", "Nieuwegein,nl");
+            updateWeatherThread();
             updateCalendarThread();
             updateTempThread(); 
         }
@@ -53,7 +54,12 @@ namespace spiegel
 
             try {
                 Headline[] nosHeadlines = await nosFeed.getHeadlines();
-                temperature.Text = nosHeadlines.First().title;
+                String text = "";
+                foreach (Headline item in nosHeadlines)
+                {
+                    text += item.ToString() + "\n\n";
+                }
+                temperature.Text =text;
             }
             catch(UnableToParseFeedException e)
             {
@@ -62,7 +68,7 @@ namespace spiegel
         }
         private async void updateCalendarThread()
         {
-            await config.LoadFromFile();
+            //await config.LoadFromFile();
             try
             {
                 
@@ -74,6 +80,27 @@ namespace spiegel
                     text += item.ToString() + "\n";
                 }
                 CalBox.Text = text;
+            }
+            catch (UnableToParseFeedException e)
+            {
+
+            }
+        }
+
+        private async void updateWeatherThread()
+        {
+            //await config.LoadFromFile();
+            try
+            {
+
+
+                Forecast[] forecasts = await weatherData.getForecast();
+                String text = "";
+                foreach (Forecast item in forecasts)
+                {
+                    text += item.ToString() + "\n";
+                }
+                weatherBox.Text = text;
             }
             catch (UnableToParseFeedException e)
             {

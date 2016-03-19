@@ -21,7 +21,7 @@ namespace spiegel
             this.apiKey = apiKey;
             this.location = location;
             httpClient = new HttpClient();
-            getForecast();
+            
         }
         public async Task<Forecast[]> getForecast()
         {

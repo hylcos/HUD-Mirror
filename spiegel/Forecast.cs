@@ -107,7 +107,7 @@ namespace spiegel
         }
         public String ToString()
         {
-            return "";
+            return startDate.DayOfWeek.ToString() + "\n" + type + " with:" + temp + " degrees celcuis";
         }
     }
 }

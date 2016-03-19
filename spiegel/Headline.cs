@@ -18,5 +18,10 @@ namespace spiegel
             this.subtitle = subtitle;
             this.date = date;
         }
+        public String ToString()
+        {
+            return title;
+        }
+
     }
 }
