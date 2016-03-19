@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,57 +29,82 @@ namespace spiegel
     {
         private Config config;
 
+        private Clock clock;
         private Nos nosFeed;
         private GCal gCal;
 
+        private List<Updateable> updateables;
 
-        private int i = 0;
+
         public MainPage()
         {
             this.InitializeComponent();
+            initializeHud();
+        }
 
+        private async void initializeHud()
+        {
             config = new Config();
-            
-
-
-            nosFeed = new Nos();
-            gCal = new GCal("AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A");
-
-            updateCalendarThread();
-            updateTempThread(); 
-        }
-
-        private async void updateTempThread()
-        {
-
             try {
-                Headline[] nosHeadlines = await nosFeed.getHeadlines();
-                temperature.Text = nosHeadlines.First().title;
+                await config.LoadFromFile();
             }
-            catch(UnableToParseFeedException e)
+            catch (UnableToReadConfigurationFileException e)
             {
+                //kan config file niet lezen, programma mag niet verder gaan! (kan wel een foutmelding weergeven in GUI)
+                showUnableToStartMessage(root, e.Message);
+                return;
+            }
+            catch (UnableToAsignConfigurationSettingsException e)
+            {
+                //kan config file niet parsen, programma mag niet verder gaan! (kan wel een foutmelding weergeven in GUI)
+                showUnableToStartMessage(root, e.Message);
+                return;
+            }
 
+
+            updateables = new List<Updateable>();
+
+
+            clock = new Clock(root);
+            updateables.Add(clock);
+
+            nosFeed = new Nos(root);
+            updateables.Add(nosFeed);
+
+
+            gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
+
+
+            //er wordt een thread aangemaakt voor alle updateables
+            foreach(Updateable updateable in updateables)
+            {
+                updateThread(updateable);
             }
         }
-        private async void updateCalendarThread()
+
+
+        private async void updateThread(Updateable updateable)
         {
-            await config.LoadFromFile();
-            try
+            while (true)
             {
-                
-
-                CalendarItem[] calendarItems = await gCal.getLatestItems();
-                String text = "";
-                foreach(CalendarItem item in calendarItems)
-                {
-                    text += item.ToString() + "\n";
-                }
-                CalBox.Text = text;
+                updateable.update();          
+                await Task.Delay(updateable.updatePeriod);
             }
-            catch (UnableToParseFeedException e)
-            {
+        }
 
-            }
+
+        private void showUnableToStartMessage(Grid UiRoot, String message)
+        {
+            TextBlock errorMessage = new TextBlock();
+            errorMessage.Text = "Het is niet gelukt om de HUD te starten..." + "\n" + "{" + message + "}";
+            errorMessage.Foreground = new SolidColorBrush(Colors.White);
+            errorMessage.HorizontalAlignment = HorizontalAlignment.Center;
+            errorMessage.VerticalAlignment = VerticalAlignment.Center;
+            errorMessage.TextAlignment = TextAlignment.Center;
+            errorMessage.FontSize = 40;
+
+            UiRoot.Children.Clear();
+            UiRoot.Children.Add(errorMessage);
         }
     }
 }

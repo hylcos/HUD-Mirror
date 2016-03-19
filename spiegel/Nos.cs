@@ -5,21 +5,35 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Windows.UI;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace spiegel
 {
-    class Nos
+    class Nos: Widget
     {
         private HttpClient httpClient;
         private Uri rssUri;
 
-        public Nos()
+        public Nos(Grid UiRoot) : base(UiRoot, 500, 600, new Thickness(10, 10, 10, 10), HorizontalAlignment.Center, VerticalAlignment.Center, TimeSpan.FromSeconds(3))
         {
             rssUri = new Uri("http://feeds.nos.nl/nosjournaal?format=xml");
             httpClient = new HttpClient();
         }
 
-        public async Task<Headline[]> getHeadlines()
+
+        public override async void update()
+        {
+            Headline[] headlines = await getHeadlines();
+
+            clearWidget();
+
+            //todo: data in widget tonen dmv UI elements
+        }
+
+        private async Task<Headline[]> getHeadlines()
         {
             try {
                 XmlDocument xmlDocument = new XmlDocument();

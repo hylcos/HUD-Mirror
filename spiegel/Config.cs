@@ -31,64 +31,76 @@ namespace spiegel
 
         public async Task LoadFromFile()
         {
-            IRandomAccessStream readStream;
-
-            configFile = await storageFolder.GetFileAsync(configFileName);
-            readStream = await configFile.OpenAsync(FileAccessMode.Read);
-
             XmlDocument xdoc = new XmlDocument();
-            try {
+
+            try
+            {
+                IRandomAccessStream readStream;
+
+                configFile = await storageFolder.GetFileAsync(configFileName);
+                readStream = await configFile.OpenAsync(FileAccessMode.Read);
+
                 xdoc.Load(readStream.AsStreamForRead());
+
+                readStream.Dispose();
             }
-            catch (Exception e)
+            catch
             {
-
+                throw new UnableToReadConfigurationFileException();
             }
 
-            readStream.Dispose();
+
+            try {
+                XmlNodeList element = xdoc.GetElementsByTagName("configuration");
 
 
-
-            XmlNodeList element = xdoc.GetElementsByTagName("configuration");
-            
-
-            foreach (ConfigType configType in Enum.GetValues(typeof(ConfigType)))
-            {
-                string configTypeName = Enum.GetName(typeof(ConfigType), configType);
-                foreach (XmlNode xn in element)
+                foreach (ConfigType configType in Enum.GetValues(typeof(ConfigType)))
                 {
-                    foreach (XmlNode x in xn)
+                    string configTypeName = Enum.GetName(typeof(ConfigType), configType);
+                    foreach (XmlNode xn in element)
                     {
-                        if (x.Name.Equals(configTypeName))
+                        foreach (XmlNode x in xn)
                         {
-                            settings[configType] = x.InnerText;
+                            if (x.Name.Equals(configTypeName))
+                            {
+                                settings[configType] = x.InnerText;
+                            }
                         }
                     }
                 }
             }
-
+            catch
+            {
+                throw new UnableToAsignConfigurationSettingsException();
+            }
         }
 
         public async void storeToFile()
         {
-            XmlDocument configXml = new XmlDocument();
+            try {
+                XmlDocument configXml = new XmlDocument();
 
-            XmlElement root = configXml.DocumentElement;
+                XmlElement root = configXml.DocumentElement;
 
-            XmlElement configRoot = configXml.CreateElement("configuration");
-            configXml.AppendChild(configRoot);
+                XmlElement configRoot = configXml.CreateElement("configuration");
+                configXml.AppendChild(configRoot);
 
-            foreach (KeyValuePair<ConfigType, string> setting in settings)
-            {
-                string settingName = Enum.GetName(typeof(ConfigType), setting.Key);
+                foreach (KeyValuePair<ConfigType, string> setting in settings)
+                {
+                    string settingName = Enum.GetName(typeof(ConfigType), setting.Key);
 
-                XmlElement element = configXml.CreateElement(settingName);
-                XmlText elementText = configXml.CreateTextNode(setting.Value);
-                element.AppendChild(elementText);
-                configRoot.AppendChild(element);
+                    XmlElement element = configXml.CreateElement(settingName);
+                    XmlText elementText = configXml.CreateTextNode(setting.Value);
+                    element.AppendChild(elementText);
+                    configRoot.AppendChild(element);
+                }
+
+                await storeXmlToFile(configXml);
             }
-
-            await storeXmlToFile(configXml);
+            catch
+            {
+                throw new UnableToStoreConfigurationException();
+            }
         }
 
         private async Task storeXmlToFile(XmlDocument document)

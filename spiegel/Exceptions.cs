@@ -7,5 +7,7 @@ using System.Threading.Tasks;
 namespace spiegel
 {
     class UnableToParseFeedException : Exception { }
-
+    class UnableToStoreConfigurationException : Exception { }
+    class UnableToReadConfigurationFileException : Exception { }
+    class UnableToAsignConfigurationSettingsException : Exception { }
 }

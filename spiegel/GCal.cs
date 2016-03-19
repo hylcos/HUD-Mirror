@@ -8,6 +8,7 @@ using Windows.Data.Json;
 
 namespace spiegel
 {
+    //todo Gcal moet nog erfen van Widget
     class GCal
     {
         private const String protocol   = "https";
