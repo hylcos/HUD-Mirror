@@ -32,15 +32,17 @@ namespace spiegel
         private Clock clock;
         private Nos nosFeed;
         private GCal gCal;
+        private WeatherForecast weatherData;
 
         private List<Updateable> updateables;
-
+        
 
         public MainPage()
         {
             this.InitializeComponent();
             initializeHud();
         }
+
 
         private async void initializeHud()
         {
@@ -73,8 +75,9 @@ namespace spiegel
 
 
             gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
+            weatherData = new WeatherForecast("11e536b32932b598cfb0b085d19fb203", "Nieuwegein,nl");
 
-
+  
             //er wordt een thread aangemaakt voor alle updateables
             foreach(Updateable updateable in updateables)
             {
