@@ -28,7 +28,7 @@ namespace spiegel
     {
         private Nos nosFeed;
         private GCal gCal;
-
+        private WeatherData weatherData;
 
         private int i = 0;
         public MainPage()
@@ -37,7 +37,7 @@ namespace spiegel
 
             nosFeed = new Nos();
             gCal = new GCal("AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A");
-
+            weatherData = new WeatherData("11e536b32932b598cfb0b085d19fb203", "Nieuwegein,nl");
             updateCalendarThread();
             updateTempThread(); 
         }
