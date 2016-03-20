@@ -27,6 +27,7 @@ namespace spiegel
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private Grid uiRoot;
         private Config config;
 
         private Clock clock;
@@ -46,6 +47,9 @@ namespace spiegel
 
         private async void initializeHud()
         {
+            uiRoot = root;
+
+
             config = new Config();
             try {
                 await config.LoadFromFile();
@@ -53,13 +57,13 @@ namespace spiegel
             catch (UnableToReadConfigurationFileException e)
             {
                 //kan config file niet lezen, programma mag niet verder gaan! (kan wel een foutmelding weergeven in GUI)
-                showUnableToStartMessage(root, e.Message);
+                showUnableToStartMessage(uiRoot, e.Message);
                 return;
             }
             catch (UnableToAsignConfigurationSettingsException e)
             {
                 //kan config file niet parsen, programma mag niet verder gaan! (kan wel een foutmelding weergeven in GUI)
-                showUnableToStartMessage(root, e.Message);
+                showUnableToStartMessage(uiRoot, e.Message);
                 return;
             }
 
@@ -67,14 +71,14 @@ namespace spiegel
             updateables = new List<Updateable>();
 
 
-            clock = new Clock(root);
+            clock = new Clock(uiRoot);
             updateables.Add(clock);
 
-            nosFeed = new Nos(root);
+            nosFeed = new Nos(uiRoot);
             updateables.Add(nosFeed);
 
 
-            gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
+            gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey], uiRoot); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
             weatherData = new WeatherForecast("11e536b32932b598cfb0b085d19fb203", "Nieuwegein,nl");
 
   
@@ -96,7 +100,7 @@ namespace spiegel
         }
 
 
-        private void showUnableToStartMessage(Grid UiRoot, String message)
+        private void showUnableToStartMessage(Grid uiRoot, String message)
         {
             TextBlock errorMessage = new TextBlock();
             errorMessage.Text = "Het is niet gelukt om de HUD te starten..." + "\n" + "{" + message + "}";
@@ -106,8 +110,8 @@ namespace spiegel
             errorMessage.TextAlignment = TextAlignment.Center;
             errorMessage.FontSize = 40;
 
-            UiRoot.Children.Clear();
-            UiRoot.Children.Add(errorMessage);
+            uiRoot.Children.Clear();
+            uiRoot.Children.Add(errorMessage);
         }
     }
 }
