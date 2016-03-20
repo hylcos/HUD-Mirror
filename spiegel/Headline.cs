@@ -20,7 +20,7 @@ namespace spiegel
         }
         public String ToString()
         {
-            return title;
+            return title ;
         }
 
     }

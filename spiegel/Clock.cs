@@ -12,7 +12,7 @@ namespace spiegel
 {
     class Clock : Widget
     {
-        public Clock(Grid UiRoot) : base(UiRoot, 300, 50, new Thickness(10, 10, 10, 10), HorizontalAlignment.Right, VerticalAlignment.Top, TimeSpan.FromSeconds(1))
+        public Clock(Grid UiRoot) : base(UiRoot, 300, 100, new Thickness(10,10,10,10), HorizontalAlignment.Right, VerticalAlignment.Top, TimeSpan.FromSeconds(1))
         {
         }
 
@@ -22,13 +22,17 @@ namespace spiegel
 
             clearWidget();
 
+            Grid grid = new Grid();
+
             TextBlock clock = new TextBlock();
             //todo leading/padding 0's
             clock.Text = dateTime.DayOfWeek + " " + dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "\n" + dateTime.Hour + " : " + dateTime.Minute + " : " + dateTime.Second ;
             clock.Foreground = new SolidColorBrush(Colors.White);
             clock.TextAlignment = TextAlignment.Right;
 
-            addToWidget(clock);
+            grid.Children.Add(clock);
+
+            addToWidget(grid);
         }
     }
 }

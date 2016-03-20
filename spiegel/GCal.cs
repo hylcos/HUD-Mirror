@@ -5,21 +5,27 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Json;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace spiegel
 {
     //todo Gcal moet nog erfen van Widget
-    class GCal
+    class GCal : Widget
     {
         private const String protocol   = "https";
         private const String host       = "www.googleapis.com";
         private const int port = 443;
         private String apiKey;
         private HttpClient httpClient;
-        public GCal(String apiKey)
+        public GCal(String apiKey, Grid UiRoot) :base(UiRoot,300,600,new Thickness(10,300,10,0),HorizontalAlignment.Left,VerticalAlignment.Top,TimeSpan.FromMinutes(10))
         {
             httpClient = new HttpClient();
             this.apiKey = apiKey;
+        }
+        public override async void update()
+        {
+
         }
         public async Task<CalendarItem[] > getLatestItems(int maxItems = 10)
         {

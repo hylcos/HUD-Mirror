@@ -12,12 +12,12 @@ using Windows.UI.Xaml.Media;
 
 namespace spiegel
 {
-    class Nos: Widget
+    class Nos : Widget
     {
         private HttpClient httpClient;
         private Uri rssUri;
 
-        public Nos(Grid UiRoot) : base(UiRoot, 500, 600, new Thickness(10, 10, 10, 10), HorizontalAlignment.Center, VerticalAlignment.Center, TimeSpan.FromSeconds(3))
+        public Nos(Grid UiRoot) : base(UiRoot, 300, 900, new Thickness(10,110, 10, 10), HorizontalAlignment.Right, VerticalAlignment.Top, TimeSpan.FromSeconds(3))
         {
             rssUri = new Uri("http://feeds.nos.nl/nosjournaal?format=xml");
             httpClient = new HttpClient();
@@ -29,7 +29,23 @@ namespace spiegel
             Headline[] headlines = await getHeadlines();
 
             clearWidget();
-
+            Grid grid = new Grid();
+            grid.Height = 900;
+            grid.Width = 300;
+            int i = 0;
+            foreach(Headline hl in headlines)
+            {
+                TextBlock tb = new TextBlock();
+                tb.FontSize = 10;
+                tb.Foreground = new SolidColorBrush(Colors.White);
+                tb.TextAlignment = TextAlignment.Left;
+                tb.Text = hl.ToString();
+                tb.Margin = new Thickness(0, (tb.FontSize*3.5) * i, 0, 0);
+                tb.TextWrapping = TextWrapping.WrapWholeWords;
+                grid.Children.Add(tb);
+                i++;
+            }
+            addToWidget(grid);
             //todo: data in widget tonen dmv UI elements
         }
 
@@ -58,7 +74,7 @@ namespace spiegel
                 {
                     if (x.Name.Equals("item"))
                     {
-                        headlines.Add(new Headline(x["title"].InnerText, string.Empty, DateTime.Parse(x["pubDate"].InnerText)));
+                        headlines.Add(new Headline(x["title"].InnerText, x["description"].InnerText, DateTime.Parse(x["pubDate"].InnerText)));
                     }
                 }
             }
