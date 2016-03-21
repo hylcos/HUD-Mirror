@@ -7,6 +7,5 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Name="root"  Background="Black">
-    </Grid>
+    <Grid Name="root"  Background="Black"/>
 </Page>

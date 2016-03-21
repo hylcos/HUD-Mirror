@@ -81,11 +81,11 @@ namespace spiegel
             gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey], uiRoot,config.settings[Config.ConfigType.googleRefreshKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
             updateables.Add(gCal);
 
-            weatherData = new WeatherForecast("11e536b32932b598cfb0b085d19fb203", "Nieuwegein,nl");
+            weatherData = new WeatherForecast("11e536b32932b598cfb0b085d19fb203", "Nieuwegein,nl",uiRoot);
+            updateables.Add(weatherData);
 
-  
             //er wordt een thread aangemaakt voor alle updateables
-            foreach(Updateable updateable in updateables)
+            foreach (Updateable updateable in updateables)
             {
                 updateThread(updateable);
             }

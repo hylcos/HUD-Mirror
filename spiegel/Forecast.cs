@@ -91,23 +91,29 @@ namespace spiegel
     {
         public String windDir { get; private set; }
         public String type { get; private set; }
+        public String icon { get; private set; }
         public String windSpeed { get; private set; }
-        public DateTime startDate { get; private set; }
-        public DateTime endDate { get; private set; }
+        public DateTime sunrise { get; private set; }
+        public DateTime sunset { get; private set; }
         public String temp { get; private set; }
+        public String minTemp { get; private set; }
+        public String maxTemp { get; private set; }
 
-        public Forecast(DateTime startDate, DateTime endDate, String type,String windDir, String windSpeed, String temp )
+        public Forecast(DateTime sunrise, DateTime sunset, String type, String icon, String windDir, String windSpeed, String temp ,String minTemp, String maxTemp)
         {
             this.type = type;
-            this.startDate = startDate;
-            this.endDate = endDate;
+            this.sunrise = sunrise;
+            this.sunset = sunset;
             this.windDir = windDir;
             this.windSpeed = windSpeed;
+            this.icon = icon;
             this.temp = temp;
+            this.minTemp = minTemp;
+            this.maxTemp = maxTemp;
         }
         public String ToString()
         {
-            return startDate.DayOfWeek.ToString() + "\n" + type + " with:" + temp + " degrees celcuis";
+            return sunset.DayOfWeek.ToString() + "\n" + type + " with:" + temp + " degrees celcuis";
         }
     }
 }

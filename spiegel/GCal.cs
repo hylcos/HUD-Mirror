@@ -22,7 +22,7 @@ namespace spiegel
         private String apiKey;
         private HttpClient httpClient;
         private String access_token="", refresh_token="";
-        public GCal(String apiKey, Grid UiRoot, String refresh_token = "") :base(UiRoot,300,600,new Thickness(10,300,10,0),HorizontalAlignment.Left,VerticalAlignment.Top,TimeSpan.FromMinutes(10))
+        public GCal(String apiKey, Grid UiRoot, String refresh_token = "") :base(UiRoot,300,600,new Thickness(10,420,10,0),HorizontalAlignment.Left,VerticalAlignment.Top,TimeSpan.FromMinutes(10))
         {
             httpClient = new HttpClient();
             this.apiKey = apiKey;
