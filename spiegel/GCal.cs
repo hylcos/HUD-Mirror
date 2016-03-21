@@ -5,8 +5,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Json;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace spiegel
 {
@@ -18,14 +20,31 @@ namespace spiegel
         private const int port = 443;
         private String apiKey;
         private HttpClient httpClient;
-        public GCal(String apiKey, Grid UiRoot) :base(UiRoot,300,600,new Thickness(10,300,10,0),HorizontalAlignment.Left,VerticalAlignment.Top,TimeSpan.FromMinutes(10))
+        public GCal(String apiKey, Grid UiRoot) :base(UiRoot,300,800,new Thickness(0,300,0,0),HorizontalAlignment.Left,VerticalAlignment.Top,TimeSpan.FromMinutes(10))
         {
             httpClient = new HttpClient();
             this.apiKey = apiKey;
         }
         public override async void update()
         {
+            CalendarItem[] calendarItems = await getLatestItems();
+            clearWidget();
 
+            Grid grid = new Grid();
+            int i = 0;
+            foreach( CalendarItem item in calendarItems)
+            {
+                TextBlock tb = new TextBlock();
+                tb.FontSize = 10;
+                tb.Foreground = new SolidColorBrush(Colors.White);
+                tb.Text = item.ToString();
+                tb.Margin = new Thickness(0, tb.FontSize * i, 0, 0);
+                tb.TextWrapping = TextWrapping.WrapWholeWords;
+                grid.Children.Add(tb);
+                i += item.lineNumbers;
+            }
+            UIElementCollection wow = grid.Children;
+            addToWidget(grid);
         }
         public async Task<CalendarItem[] > getLatestItems(int maxItems = 10)
         {

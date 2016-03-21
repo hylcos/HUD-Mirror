@@ -84,5 +84,6 @@ namespace spiegel
             }
             return forecasts.ToArray();
         }
+
     }
 }
