@@ -16,7 +16,7 @@ namespace spiegel
         {
         }
 
-        public override async void update()
+        public override void update()
         {
             DateTime dateTime = DateTime.Now;
 

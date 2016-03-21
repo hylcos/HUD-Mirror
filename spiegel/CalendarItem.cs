@@ -12,9 +12,11 @@ namespace spiegel
         public String location { get; private set; }
         public DateTime startDate { get; private set; }
         public DateTime endDate { get; private set; }
+        public int lineNumbers { get; private set; }
 
         public CalendarItem(String description,DateTime startDate, DateTime endDate,String location)
         {
+            lineNumbers = Math.Abs(description.Length / 59) + 4;
             this.description = description;
             this.startDate = startDate;
             this.endDate = endDate;
