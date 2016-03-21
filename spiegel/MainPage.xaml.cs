@@ -79,7 +79,7 @@ namespace spiegel
 
 
             gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey], uiRoot); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
-            updateables.Add(gCal);
+            //updateables.Add(gCal);
 
             weatherData = new WeatherForecast("11e536b32932b598cfb0b085d19fb203", "Nieuwegein,nl");
 
