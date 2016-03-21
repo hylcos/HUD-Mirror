@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Json;
+using Windows.Networking.Sockets;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -20,10 +21,13 @@ namespace spiegel
         private const int port = 443;
         private String apiKey;
         private HttpClient httpClient;
-        public GCal(String apiKey, Grid UiRoot) :base(UiRoot,300,600,new Thickness(10,300,10,0),HorizontalAlignment.Left,VerticalAlignment.Top,TimeSpan.FromMinutes(10))
+        private String access_token="", refresh_token="";
+        public GCal(String apiKey, Grid UiRoot, String refresh_token = "") :base(UiRoot,300,600,new Thickness(10,300,10,0),HorizontalAlignment.Left,VerticalAlignment.Top,TimeSpan.FromMinutes(10))
         {
             httpClient = new HttpClient();
             this.apiKey = apiKey;
+            this.refresh_token = refresh_token;
+            access_token = getAccessToken(refresh_token);
         }
         public override async void update()
         {
@@ -58,7 +62,8 @@ namespace spiegel
             WebUrl webUrl = new WebUrl(protocol, host, port);
             string[] paths = { "calendar", "v3", "users", "me", "calendarList" };
             WebUrl.Query[] querys = {
-                new WebUrl.Query("key", apiKey)
+                new WebUrl.Query("key", apiKey),
+                new WebUrl.Query("access_token",access_token)
             };
             webUrl.addPath(paths);
             webUrl.addQuery(querys);
@@ -66,20 +71,13 @@ namespace spiegel
             JsonObject json;
             try
             {
-                //json = JsonObject.Parse(await httpClient.GetStringAsync(url));
-                //JsonArray jsonArray = json.GetNamedArray("items");
-                String[] items = {
-                    "hylcos@gmail.com",
-                    "n4nh2en8nl0tt5lsq2mfiobgms@group.calendar.google.com ",
-                    "roc1vp9b0qd7rea20s44alh65019lbod@import.calendar.google.com",
-                    "#contacts@group.v.calendar.google.com",
-                    "en.dutch#holiday@group.v.calendar.google.com"
-                };
-                foreach (String item in items)
+                json = JsonObject.Parse(await httpClient.GetStringAsync(url));
+                JsonArray jsonArray = json.GetNamedArray("items");
+                foreach (JsonValue item in jsonArray)
                 {
-                    //JsonObject it = item.GetObject();
-                    //String id = it.GetNamedString("id");
-                    CalendarItem[] tmpCalendarItems = await getItems(item);
+                    JsonObject it = item.GetObject() ;
+                    String id = it.GetNamedString("id");
+                    CalendarItem[] tmpCalendarItems = await getItems(id);
                     calendarItems.AddRange(tmpCalendarItems);
                 }
             }
@@ -89,6 +87,7 @@ namespace spiegel
             }
             return calendarItems.ToArray();
         }
+
         private async Task < CalendarItem[] >getItems(String agendaID)
         {
             List<CalendarItem> calendarItems = new List<CalendarItem>();
@@ -132,5 +131,49 @@ namespace spiegel
             return calendarItems.ToArray();
         }
 
+        private String getAccessToken(String refreshToken = "")
+        {
+           
+                WebUrl webAuthUrl = new WebUrl(protocol, host, port);
+                string[] paths = { "oauth2", "v4", "token" };
+                webAuthUrl.addPath(paths);
+                FormUrlEncodedContent content;
+                if (refreshToken == "")
+                {
+                    content = new FormUrlEncodedContent(new[]
+                        {
+                    new KeyValuePair<string, string>("code", "4/x68zKiHOoag-uKJBxSGMasGk8c3DLfoC5had_eno-MM"),
+                    new KeyValuePair<string, string>("redirect_uri", "http://localhost:8080"),
+                    new KeyValuePair<string, string>("client_id", "855714885654-26l03mb5tf08p3agig8n634115tsvueo.apps.googleusercontent.com"),
+                    new KeyValuePair<string, string>("client_secret", "LLC0LHxFoszPoLSvqR7xAw7Y"),
+                    new KeyValuePair<string, string>("grant_type", "authorization_code")
+                        });
+                    }
+                    else {
+                    content = new FormUrlEncodedContent(new[]
+                        {
+                    new KeyValuePair<string, string>("refresh_token", refreshToken),
+                    new KeyValuePair<string, string>("redirect_uri", "http://localhost:8080"),
+                    new KeyValuePair<string, string>("client_id", "855714885654-26l03mb5tf08p3agig8n634115tsvueo.apps.googleusercontent.com"),
+                    new KeyValuePair<string, string>("client_secret", "LLC0LHxFoszPoLSvqR7xAw7Y"),
+                    new KeyValuePair<string, string>("grant_type", "refresh_token")
+                        });
+                }
+                JsonObject postJson;
+
+                try
+                {
+                    var result = httpClient.PostAsync(webAuthUrl.compose().ToString(), content).Result;
+                    postJson = JsonObject.Parse(result.Content.ReadAsStringAsync().Result);
+                    access_token = postJson.GetNamedString("access_token");
+                    if (refresh_token == "")
+                    {
+                        refreshToken = postJson.GetNamedString("refresh_token");
+                    }
+                }
+                catch { }
+            
+            return access_token;
+        }
     }
 }
