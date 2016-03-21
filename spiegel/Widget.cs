@@ -12,7 +12,7 @@ namespace spiegel
 {
     class Widget: Updateable
     {
-        private const bool showWidgetOutline = true;
+        private const bool showWidgetOutline = false;
         protected Grid widgetBox { get; set; }
 
         public Widget(Grid UiRoot, int width, int height, Thickness margin, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, TimeSpan updatePeriod) : base(updatePeriod)

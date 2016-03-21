@@ -8,6 +8,5 @@
     mc:Ignorable="d">
 
     <Grid Name="root"  Background="Black">
-
     </Grid>
 </Page>
