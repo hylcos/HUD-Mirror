@@ -78,7 +78,7 @@ namespace spiegel
             updateables.Add(nosFeed);
 
 
-            gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey], uiRoot,config.settings[Config.ConfigType.googleRefreshKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
+            gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey], uiRoot,config.settings[Config.ConfigType.googleRefreshKey]);//config.settings[Config.ConfigType.googleRefreshKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
             updateables.Add(gCal);
 
             weatherData = new WeatherForecast("11e536b32932b598cfb0b085d19fb203", "Nieuwegein,nl",uiRoot);
@@ -94,7 +94,7 @@ namespace spiegel
 
         private async void updateThread(Updateable updateable)
         {
-            while (true)
+             while (true)
             {
                 updateable.update();          
                 await Task.Delay(updateable.updatePeriod);

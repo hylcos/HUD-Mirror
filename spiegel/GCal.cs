@@ -22,7 +22,7 @@ namespace spiegel
         private String apiKey;
         private HttpClient httpClient;
         private String access_token="", refresh_token="";
-        public GCal(String apiKey, Grid UiRoot, String refresh_token = "") :base(UiRoot,300,600,new Thickness(10,420,10,0),HorizontalAlignment.Left,VerticalAlignment.Top,TimeSpan.FromMinutes(10))
+        public GCal(String apiKey, Grid UiRoot, String refresh_token = "") :base(UiRoot,300,600,new Thickness(10,420,10,0),HorizontalAlignment.Right,VerticalAlignment.Top,TimeSpan.FromMinutes(10))
         {
             httpClient = new HttpClient();
             this.apiKey = apiKey;
@@ -83,7 +83,7 @@ namespace spiegel
             }
             catch (Exception e)
             {
-
+                access_token = getAccessToken(refresh_token);
             }
             return calendarItems.ToArray();
         }
@@ -142,7 +142,7 @@ namespace spiegel
                 {
                     content = new FormUrlEncodedContent(new[]
                         {
-                    new KeyValuePair<string, string>("code", "4/x68zKiHOoag-uKJBxSGMasGk8c3DLfoC5had_eno-MM"),
+                    new KeyValuePair<string, string>("code", "4/JSJkNmgIayCQVmNf47kv_pJPLPZo9hvq3HnFaaxq67Q"),
                     new KeyValuePair<string, string>("redirect_uri", "http://localhost:8080"),
                     new KeyValuePair<string, string>("client_id", "855714885654-26l03mb5tf08p3agig8n634115tsvueo.apps.googleusercontent.com"),
                     new KeyValuePair<string, string>("client_secret", "LLC0LHxFoszPoLSvqR7xAw7Y"),
