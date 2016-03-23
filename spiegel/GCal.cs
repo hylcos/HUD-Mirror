@@ -22,7 +22,8 @@ namespace spiegel
         private String apiKey;
         private HttpClient httpClient;
         private String access_token="", refresh_token="";
-        public GCal(String apiKey, Grid UiRoot, String refresh_token = "") :base(UiRoot,300,600,new Thickness(10,420,10,0),HorizontalAlignment.Right,VerticalAlignment.Top,TimeSpan.FromMinutes(10))
+        private DateTime oldDateTime = DateTime.Now;
+        public GCal(String apiKey, Grid UiRoot, String refresh_token = "") :base(UiRoot,300,600,new Thickness(10,420,10,0),HorizontalAlignment.Right,VerticalAlignment.Top,TimeSpan.FromSeconds(30))
         {
             httpClient = new HttpClient();
             this.apiKey = apiKey;
@@ -35,6 +36,12 @@ namespace spiegel
             clearWidget();
 
             Grid grid = new Grid();
+            TextBlock tx = new TextBlock();
+            tx.Foreground = new SolidColorBrush(Colors.White);
+            tx.FontSize = 14;
+            tx.Margin = new Thickness(0, 0, 50, 50);
+            tx.Text = access_token;
+            grid.Children.Add(tx);
             int i = 0;
             foreach (CalendarItem item in calendarItems)
             {
@@ -42,7 +49,7 @@ namespace spiegel
                 tb.FontSize = 10;
                 tb.Foreground = new SolidColorBrush(Colors.White);
                 tb.Text = item.ToString();
-                tb.Margin = new Thickness(0, tb.FontSize * i, 0, 0);
+                tb.Margin = new Thickness(0, tb.FontSize * (i+2), 0, 0);
                 tb.TextWrapping = TextWrapping.WrapWholeWords;
                 grid.Children.Add(tb);
                 i += item.lineNumbers;
@@ -52,6 +59,11 @@ namespace spiegel
         }
         public async Task<CalendarItem[] > getLatestItems(int maxItems = 10)
         {
+            if(DateTime.Now.Subtract(oldDateTime) >= TimeSpan.FromMinutes(30)) {
+                access_token = getAccessToken(refresh_token);
+                oldDateTime = DateTime.Now;
+            }
+            
             CalendarItem[] items = await getCalendars();
             List<CalendarItem> SortedList = items.OrderBy(o => o.startDate).ToList().GetRange(0, maxItems);
             return SortedList.ToArray();

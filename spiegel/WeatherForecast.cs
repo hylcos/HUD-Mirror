@@ -21,7 +21,7 @@ namespace spiegel
         private const int port = 80;
         private HttpClient httpClient;
         private String location, apiKey;
-        public WeatherForecast(String apiKey,String location,Grid root) : base(root,200,120,new Thickness(330,10,10,10), HorizontalAlignment.Center, VerticalAlignment.Top, TimeSpan.FromHours(3))
+        public WeatherForecast(String apiKey,String location,Grid root) : base(root,200,120,new Thickness(10,10,10,10), HorizontalAlignment.Right , VerticalAlignment.Top, TimeSpan.FromHours(3))
         {            
             this.apiKey = apiKey;
             this.location = location;
@@ -51,9 +51,9 @@ namespace spiegel
             //Temp
             TextBlock temp = new TextBlock();
             temp.Text = "Min: " + forecast.minTemp + "  --  Max: " + forecast.maxTemp;
-            temp.FontSize = 8;
+            temp.FontSize = 10;
             temp.Foreground = new SolidColorBrush(Colors.White);
-            temp.Margin = new Thickness(110, 0, 0, 0);
+            temp.Margin = new Thickness(105, 0, 0, 0);
 
             TextBlock temp2 = new TextBlock();
             temp2.Text = "Gem: " + forecast.temp;
