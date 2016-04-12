@@ -12,6 +12,7 @@ using Windows.Foundation;
 using Windows.Networking;
 using Windows.Networking.Connectivity;
 using Windows.Networking.Sockets;
+using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -41,39 +42,78 @@ namespace spiegel
         private WeatherForecast weatherData;
 
         private List<Updateable> updateables;
-        
+        private StreamSocketListener socketListener;
 
         public MainPage()
         {
             this.InitializeComponent();
-            checkBoot();
+            //checkBoot();
             initializeNetwork();
+
             //initializeHud();
         }
 
         private async void initializeNetwork()
         {
+            socketListener = new StreamSocketListener();
+            socketListener.ConnectionReceived += OnConnection;
+            socketListener.Control.KeepAlive = true;
             try
             {
-                StreamSocketListener socketListener = new StreamSocketListener();
-                socketListener.ConnectionReceived += SocketListener_ConnectionReceived;
                 await socketListener.BindServiceNameAsync("8080");
-               
 
-                //  NetworkAdapter selectedAdapter = LocalHost.IPInformation.NetworkAdapter;
-               
                 Debug.WriteLine("Server Started");
 
             }
             catch (Exception e)
             {
-                //Handle exception.
+                Debug.WriteLine("Cant Start a Socket: " + e);
             }
         }
 
-        private void SocketListener_ConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
+        private async void OnConnection(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
         {
-            Debug.WriteLine("Made a connection");
+            DataReader reader = new DataReader(args.Socket.InputStream);
+            DataWriter writer = new DataWriter(args.Socket.OutputStream);
+            try
+            {
+                Debug.WriteLine("Made a connection");
+                while (true)
+                {
+                    writer.WriteString("Hello World");
+                    // Read first 4 bytes (length of the subsequent string).
+                    uint sizeFieldCount = await reader.LoadAsync(sizeof(uint));
+                    Debug.WriteLine(reader.ReadString(sizeFieldCount));
+                    if (sizeFieldCount != sizeof(uint))
+                    {
+                        // The underlying socket was closed before we were able to read the whole data.
+                        return;
+                    }
+
+                    // Read the string.
+                    uint stringLength = reader.ReadUInt32();
+                    uint actualStringLength = await reader.LoadAsync(stringLength);
+                    Debug.WriteLine(reader.ReadString(actualStringLength));
+                    if (stringLength != actualStringLength)
+                    {
+                        // The underlying socket was closed before we were able to read the whole data.
+                        return;
+                    }
+                    
+
+
+                }
+            }
+            catch (Exception exception)
+            {
+                // If this is an unknown status it means that the error is fatal and retry will likely fail.
+                if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
+                {
+                    throw;
+                }
+                
+            }
+           
             //Read line from the remote client.
             /*Stream inStream = args.Socket.InputStream.AsStreamForRead();
             StreamReader reader = new StreamReader(inStream);
