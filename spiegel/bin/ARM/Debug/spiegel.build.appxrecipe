@@ -342,8 +342,62 @@
     <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\ApplicationInsights.config">
       <PackagePath>ApplicationInsights.config</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Properties\Default.rd.xml">
-      <PackagePath>Properties\Default.rd.xml</PackagePath>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\01d.png">
+      <PackagePath>Assets\01d.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\01n.png">
+      <PackagePath>Assets\01n.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\02d.png">
+      <PackagePath>Assets\02d.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\02n.png">
+      <PackagePath>Assets\02n.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\03d.png">
+      <PackagePath>Assets\03d.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\03n.png">
+      <PackagePath>Assets\03n.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\04d.png">
+      <PackagePath>Assets\04d.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\04n.png">
+      <PackagePath>Assets\04n.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\09d.png">
+      <PackagePath>Assets\09d.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\09n.png">
+      <PackagePath>Assets\09n.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\10d.png">
+      <PackagePath>Assets\10d.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\10n.png">
+      <PackagePath>Assets\10n.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\11d.png">
+      <PackagePath>Assets\11d.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\11n.png">
+      <PackagePath>Assets\11n.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\13d.png">
+      <PackagePath>Assets\13d.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\13n.png">
+      <PackagePath>Assets\13n.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\50d.png">
+      <PackagePath>Assets\50d.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\50n.png">
+      <PackagePath>Assets\50n.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\wind.png">
+      <PackagePath>Assets\wind.png</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
@@ -371,6 +425,12 @@
     <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\Magic_Mirror.jpg">
+      <PackagePath>Assets\Magic_Mirror.jpg</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Properties\Default.rd.xml">
+      <PackagePath>Properties\Default.rd.xml</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\bin\ARM\Debug\spiegel.xr.xml">
       <PackagePath>spiegel.xr.xml</PackagePath>

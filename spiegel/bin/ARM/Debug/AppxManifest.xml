@@ -7,7 +7,7 @@
 
     For more information on package manifest files, see http://go.microsoft.com/fwlink/?LinkID=241727
   -->
-  <Identity Name="5b321cfd-e4a3-4795-98e4-f75c8c18d19a" Publisher="CN=Bart" Version="1.0.0.0" ProcessorArchitecture="arm" />
+  <Identity Name="5b321cfd-e4a3-4795-98e4-f75c8c18d19a" Publisher="CN=Bart" Version="1.0.1.0" ProcessorArchitecture="arm" />
   <mp:PhoneIdentity PhoneProductId="5b321cfd-e4a3-4795-98e4-f75c8c18d19a" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>spiegel</DisplayName>
@@ -18,18 +18,19 @@
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.10240.0" MaxVersionTested="10.0.10586.0" />
   </Dependencies>
   <Resources>
-    <Resource Language="EN-US" />
+    <Resource Language="NL-NL" />
   </Resources>
   <Applications>
     <Application Id="App" Executable="spiegel.exe" EntryPoint="spiegel.App">
       <uap:VisualElements DisplayName="spiegel" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="spiegel" BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"></uap:DefaultTile>
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="black" />
       </uap:VisualElements>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <Capability Name="internetClientServer" />
   </Capabilities>
   <build:Metadata>
     <build:Item Name="TargetFrameworkMoniker" Value=".NETCore,Version=v5.0" />

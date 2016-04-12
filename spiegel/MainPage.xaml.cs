@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Xml;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Networking;
+using Windows.Networking.Connectivity;
+using Windows.Networking.Sockets;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -29,7 +33,8 @@ namespace spiegel
     {
         private Grid uiRoot;
         private Config config;
-
+        private Dictionary<string,bool> modules;
+        private List<String> moduleNames;
         private Clock clock;
         private Nos nosFeed;
         private GCal gCal;
@@ -41,23 +46,69 @@ namespace spiegel
         public MainPage()
         {
             this.InitializeComponent();
-            initializeHud();
+            checkBoot();
+            initializeNetwork();
+            //initializeHud();
         }
 
-
-        private async void initializeHud()
+        private async void initializeNetwork()
         {
+            try
+            {
+                StreamSocketListener socketListener = new StreamSocketListener();
+                socketListener.ConnectionReceived += SocketListener_ConnectionReceived;
+                await socketListener.BindServiceNameAsync("8080");
+               
+
+                //  NetworkAdapter selectedAdapter = LocalHost.IPInformation.NetworkAdapter;
+               
+                Debug.WriteLine("Server Started");
+
+            }
+            catch (Exception e)
+            {
+                //Handle exception.
+            }
+        }
+
+        private void SocketListener_ConnectionReceived(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
+        {
+            Debug.WriteLine("Made a connection");
+            //Read line from the remote client.
+            /*Stream inStream = args.Socket.InputStream.AsStreamForRead();
+            StreamReader reader = new StreamReader(inStream);
+            string request = await reader.ReadLineAsync();
+
+            //Send the line back to the remote client.
+            Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
+            StreamWriter writer = new StreamWriter(outStream);
+            await writer.WriteLineAsync(request);
+            await writer.FlushAsync();*/
+        }
+
+        private async void checkBoot()
+        {
+            moduleNames = new List<string>();
+            modules = new Dictionary<string, bool>();
+
+            moduleNames.Add("Clock");
+            moduleNames.Add("GoogleCalendar");
+            moduleNames.Add("News");
+            moduleNames.Add("Weather");
+
+
             uiRoot = root;
-
-
             config = new Config();
-            try {
+            showUnableToStartMessage(uiRoot, "First Boot");
+            try
+            {
                 await config.LoadFromFile();
             }
             catch (UnableToReadConfigurationFileException e)
             {
                 //kan config file niet lezen, programma mag niet verder gaan! (kan wel een foutmelding weergeven in GUI)
                 showUnableToStartMessage(uiRoot, e.Message);
+                firstBoot();
                 return;
             }
             catch (UnableToAsignConfigurationSettingsException e)
@@ -66,8 +117,23 @@ namespace spiegel
                 showUnableToStartMessage(uiRoot, e.Message);
                 return;
             }
+            catch (Exception e)
+            {
 
+            }
+        }
 
+        private void firstBoot()
+        {
+            foreach(string moduleName in moduleNames)
+            {
+                modules[moduleName] = false;
+            }
+        }
+
+        private async void initializeHud()
+        {
+            
             updateables = new List<Updateable>();
 
 
@@ -96,9 +162,12 @@ namespace spiegel
         {
              while (true)
             {
-                updateable.update();          
+                updateable.update();  
+                //await Task.Delay(TimeSpan.FromSeconds(1));        
                 await Task.Delay(updateable.updatePeriod);
+                
             }
+            throw new Exception();
         }
 
 

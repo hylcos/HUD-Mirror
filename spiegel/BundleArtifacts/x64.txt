@@ -1,0 +1,2 @@
+MainPackage=D:\Public\C#\HUD-Mirror\spiegel\bin\x64\Release\spiegel_1.0.1.0_x64.appx
+SymbolPackage=D:\Public\C#\HUD-Mirror\spiegel\AppPackages\spiegel_1.0.1.0_Test\spiegel_1.0.1.0_x64.appxsym

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="5b321cfd-e4a3-4795-98e4-f75c8c18d19a" Publisher="CN=Bart" Version="1.0.0.0" />
+  <Identity Name="5b321cfd-e4a3-4795-98e4-f75c8c18d19a" Publisher="CN=Bart" Version="1.0.1.0" />
   <mp:PhoneIdentity PhoneProductId="5b321cfd-e4a3-4795-98e4-f75c8c18d19a" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>spiegel</DisplayName>
@@ -18,11 +18,12 @@
       <uap:VisualElements DisplayName="spiegel" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="spiegel" BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\Magic_Mirror.jpg" BackgroundColor="black" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="black" />
       </uap:VisualElements>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
+    <Capability Name="internetClientServer" />
   </Capabilities>
 </Package>

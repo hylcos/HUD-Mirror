@@ -14,7 +14,7 @@ namespace spiegel
 
     class Config
     {
-        public enum ConfigType { googleCalendarKey,googleRefreshKey, city};
+        public enum ConfigType {clock,GoogleCalendar,News,Weather, googleCalendarKey,googleRefreshKey, city};
 
 
 
