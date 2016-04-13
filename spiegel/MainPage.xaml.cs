@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using System.Xml;
+using Windows.Data.Json;
 using Windows.Foundation;
 using Windows.Networking;
 using Windows.Networking.Connectivity;
@@ -73,7 +74,26 @@ namespace spiegel
 
         private async void OnConnection(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
         {
-            DataReader reader = new DataReader(args.Socket.InputStream);
+            while (true) {
+                Stream inStream = args.Socket.InputStream.AsStreamForRead();
+                StreamReader reader = new StreamReader(inStream);
+                string request = await reader.ReadLineAsync();
+                try {
+                    JsonObject jsonObject = JsonObject.Parse(request);
+                    Debug.WriteLine(jsonObject.GetNamedString("commando"));
+                } catch(Exception e)
+                {
+
+                }
+                //Send the line back to the remote client. 
+                Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
+                StreamWriter writer = new StreamWriter(outStream);
+
+                Debug.WriteLine(request);
+                await writer.WriteLineAsync("Hello\n");
+                await writer.FlushAsync();
+            }
+            /*DataReader reader = new DataReader(args.Socket.InputStream);
             DataWriter writer = new DataWriter(args.Socket.OutputStream);
             try
             {
@@ -124,6 +144,8 @@ namespace spiegel
             StreamWriter writer = new StreamWriter(outStream);
             await writer.WriteLineAsync(request);
             await writer.FlushAsync();*/
+            //Read line from the remote client. 
+
         }
 
         private async void checkBoot()
