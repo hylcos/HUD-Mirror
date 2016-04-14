@@ -48,7 +48,7 @@ namespace spiegel
         public MainPage()
         {
             this.InitializeComponent();
-            //checkBoot();
+            checkBoot();
             initializeNetwork();
 
             //initializeHud();
@@ -74,24 +74,50 @@ namespace spiegel
 
         private async void OnConnection(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
         {
-            while (true) {
-                Stream inStream = args.Socket.InputStream.AsStreamForRead();
-                StreamReader reader = new StreamReader(inStream);
-                string request = await reader.ReadLineAsync();
-                try {
-                    JsonObject jsonObject = JsonObject.Parse(request);
-                    Debug.WriteLine(jsonObject.GetNamedString("commando"));
-                } catch(Exception e)
-                {
+            try {
+                while (true) {
+                    Stream inStream = args.Socket.InputStream.AsStreamForRead();
+                    StreamReader reader = new StreamReader(inStream);
+                    string request = await reader.ReadLineAsync();
+                    Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
+                    StreamWriter writer = new StreamWriter(outStream);
 
+                    try
+                    {
+                        JsonObject jsonObject = JsonObject.Parse(request);
+                        String commando = jsonObject.GetNamedString("commando");
+                        switch (commando)
+                        {
+                            case "getModules":
+                                String value = "{";
+                                value += "\"commando\":\"giveModules\",";
+                                value += "\"modules\": [";
+                                foreach(KeyValuePair<string, bool> module in modules)
+                                {
+                                    if(value.Last() == '}')
+                                    {
+                                        value += ",";
+                                    }
+                                    value += "{\"moduleName\":\"" + module.Key + "\",\"value\":" + ((module.Value) ? "\"on\"" : "\"off\"") + "}";
+                                }
+                                value += "]}";
+                                Debug.WriteLine(value);
+                                await writer.WriteLineAsync(value+"\n");
+                                await writer.FlushAsync();
+                                break;
+                        }
+                    } catch(Exception e)
+                    {
+
+                    }
+                    //Send the line back to the remote client. 
+
+                    Debug.WriteLine(request);
+                   
                 }
-                //Send the line back to the remote client. 
-                Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
-                StreamWriter writer = new StreamWriter(outStream);
-
-                Debug.WriteLine(request);
-                await writer.WriteLineAsync("Hello\n");
-                await writer.FlushAsync();
+            }catch(Exception e)
+            {
+                Debug.WriteLine(e.ToString());
             }
             /*DataReader reader = new DataReader(args.Socket.InputStream);
             DataWriter writer = new DataWriter(args.Socket.OutputStream);
