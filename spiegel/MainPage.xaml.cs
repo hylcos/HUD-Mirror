@@ -186,11 +186,15 @@ namespace spiegel
 
 
             uiRoot = root;
-            config = new Config();
+            config = new Config(moduleNames);
             showUnableToStartMessage(uiRoot, "First Boot");
             try
             {
                 await config.LoadFromFile();
+                foreach(string moduleName in moduleNames)
+                {
+                    modules[moduleName] = (config.getSetting(moduleName,"enabled") == "true"? true : false);
+                }
             }
             catch (UnableToReadConfigurationFileException e)
             {
@@ -225,18 +229,18 @@ namespace spiegel
             updateables = new List<Updateable>();
 
 
-            clock = new Clock(uiRoot);
-            updateables.Add(clock);
+            //clock = new Clock(uiRoot);
+            //updateables.Add(clock);
 
-            nosFeed = new Nos(uiRoot);
-            updateables.Add(nosFeed);
+            //nosFeed = new Nos(uiRoot);
+           // updateables.Add(nosFeed);
 
 
-            gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey], uiRoot,config.settings[Config.ConfigType.googleRefreshKey]);//config.settings[Config.ConfigType.googleRefreshKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
-            updateables.Add(gCal);
+            //gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey], uiRoot,config.settings[Config.ConfigType.googleRefreshKey]);//config.settings[Config.ConfigType.googleRefreshKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
+            //updateables.Add(gCal);
 
-            weatherData = new WeatherForecast("11e536b32932b598cfb0b085d19fb203", "Nieuwegein,nl",uiRoot);
-            updateables.Add(weatherData);
+            //weatherData = new WeatherForecast("11e536b32932b598cfb0b085d19fb203", "Nieuwegein,nl",uiRoot);
+           // updateables.Add(weatherData);
 
             //er wordt een thread aangemaakt voor alle updateables
             foreach (Updateable updateable in updateables)

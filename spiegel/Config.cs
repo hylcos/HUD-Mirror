@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,19 +15,20 @@ namespace spiegel
 
     class Config
     {
-        public enum ConfigType {clock,GoogleCalendar,News,Weather, googleCalendarKey,googleRefreshKey, city};
 
 
 
+        private List<string> moduleNames;
         private const string configFileName = "configuration.xml";
         private StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
         private StorageFile configFile;
 
-        public Dictionary<ConfigType, string> settings;
+        public Dictionary<string, Dictionary<string,string >> settings;
 
-        public Config()
+        public Config(List<string> moduleNames)
         {
-            settings = new Dictionary<ConfigType, string>();
+            this.moduleNames = moduleNames;
+            settings = new Dictionary<string,Dictionary<string,string>>();
         }
 
         public async Task LoadFromFile()
@@ -52,29 +54,39 @@ namespace spiegel
 
             try {
                 XmlNodeList element = xdoc.GetElementsByTagName("configuration");
-
-
-                foreach (ConfigType configType in Enum.GetValues(typeof(ConfigType)))
+                XmlNode modules = element.Item(0);
+                foreach (XmlNode xn in modules)
                 {
-                    string configTypeName = Enum.GetName(typeof(ConfigType), configType);
-                    foreach (XmlNode xn in element)
+                    foreach (XmlNode x in xn)
                     {
-                        foreach (XmlNode x in xn)
+                        string name = x.Attributes.Item(0).InnerXml;
+                        settings[name] = new Dictionary<string, string>();
+                        foreach(XmlNode _x in x)
                         {
-                            if (x.Name.Equals(configTypeName))
-                            {
-                                settings[configType] = x.InnerText;
-                            }
+                            settings[name][_x.Name] = _x.InnerText;
                         }
+                        
                     }
                 }
+                foreach(KeyValuePair<string, Dictionary<string, string>> entry in settings)
+                {
+                    Debug.WriteLine(entry.Key);
+                    foreach (KeyValuePair<string,string> entry2 in entry.Value)
+                    {
+                        Debug.WriteLine("\t" + entry2.Key + " : " + entry2.Value);
+                    }
+                }
+                
             }
             catch
             {
                 throw new UnableToAsignConfigurationSettingsException();
             }
         }
-
+        public string getSetting(string moduleName,string setting)
+        {
+            return settings[moduleName][setting];
+        }
         public async void storeToFile()
         {
             try {
@@ -85,7 +97,7 @@ namespace spiegel
                 XmlElement configRoot = configXml.CreateElement("configuration");
                 configXml.AppendChild(configRoot);
 
-                foreach (KeyValuePair<ConfigType, string> setting in settings)
+               /* foreach (KeyValuePair<ConfigType, string> setting in settings)
                 {
                     string settingName = Enum.GetName(typeof(ConfigType), setting.Key);
 
@@ -93,7 +105,7 @@ namespace spiegel
                     XmlText elementText = configXml.CreateTextNode(setting.Value);
                     element.AppendChild(elementText);
                     configRoot.AppendChild(element);
-                }
+                }*/
 
                 await storeXmlToFile(configXml);
             }
