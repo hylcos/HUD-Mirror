@@ -22,9 +22,64 @@ namespace spiegel
         private const string configFileName = "configuration.xml";
         private StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
         private StorageFile configFile;
-
+        private XmlDocument xdoc;
         public Dictionary<string, Dictionary<string,string >> settings;
 
+        public async Task<bool> makeSetting(string name, string v1, string v2)
+        {
+            Debug.WriteLine("Making new Setting");
+            if (settings.Keys.Contains(name))
+            {
+                if (settings[name].Keys.Contains(v1))
+                {
+                    return false;
+                }
+                else
+                {
+                    settings[name][v1] = v2;
+                    XmlNodeList element = xdoc.GetElementsByTagName("configuration");
+                    XmlNode modules = element.Item(0);
+                    foreach (XmlNode xn in modules)
+                    {
+                        foreach (XmlNode x in xn)
+                        {
+                            if (x.Attributes.Item(0).InnerXml == name)
+                            {
+                                XmlNode newNode = xdoc.CreateElement(v1);
+                                newNode.InnerText = v2;
+                                x.AppendChild(newNode);
+                            }
+                        }
+
+                    }
+                    await writeToFile();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private async Task writeToFile()
+        {
+            configFile = await storageFolder.CreateFileAsync(configFileName, CreationCollisionOption.ReplaceExisting);
+            var writeStream = await configFile.OpenStreamForWriteAsync();
+            xdoc.Save(writeStream);
+            writeStream.Flush();
+            writeStream.Dispose();
+        }
+        public bool hasSetting(string name, string v)
+        {
+            Debug.WriteLine("Checking setting ");
+            if (settings.Keys.Contains(name))
+            {
+                if (settings[name].Keys.Contains(v))
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
         public Config(List<string> moduleNames)
         {
             this.moduleNames = moduleNames;
@@ -33,7 +88,7 @@ namespace spiegel
 
         public async Task LoadFromFile()
         {
-            XmlDocument xdoc = new XmlDocument();
+           xdoc  = new XmlDocument();
 
             try
             {
@@ -87,6 +142,17 @@ namespace spiegel
         {
             return settings[moduleName][setting];
         }
+        public void setSetting(string moduleName,string setting,string value)
+        {
+            if (hasSetting(moduleName, setting))
+            {
+                settings[moduleName][setting] = value;
+            }
+        }
+        public bool getEnabled(string moduleName)
+        {
+            return (settings[moduleName]["enabled"] == "true")? true :false  ;
+        }
         public async void storeToFile()
         {
             try {
@@ -114,12 +180,39 @@ namespace spiegel
                 throw new UnableToStoreConfigurationException();
             }
         }
-
         private async Task storeXmlToFile(XmlDocument document)
         {
             configFile = await storageFolder.CreateFileAsync(configFileName, CreationCollisionOption.ReplaceExisting);
             var writeStream = await configFile.OpenStreamForWriteAsync();
             document.Save(writeStream);
+            writeStream.Flush();
+            writeStream.Dispose();
+        }
+
+        public async Task makeFile(List<string> moduleNames)
+        {
+            XmlDocument _xdoc = new XmlDocument();
+            XmlNode root = _xdoc.CreateNode(XmlNodeType.Element, "configuration", null);
+            XmlNode modules = _xdoc.CreateNode(XmlNodeType.Element, "modules", null);
+
+            foreach(String moduleName in moduleNames){
+                XmlNode module = _xdoc.CreateNode(XmlNodeType.Element, "module", null);
+                XmlAttribute attr = _xdoc.CreateAttribute("name");
+                attr.Value = moduleName;
+                module.Attributes.Append(attr);
+
+                XmlNode enabled = _xdoc.CreateElement("enabled");
+                enabled.InnerText = "false";
+
+                module.AppendChild(enabled);
+
+                modules.AppendChild(module);
+            }
+            root.AppendChild(modules);
+            _xdoc.AppendChild(root);
+            configFile = await storageFolder.CreateFileAsync(configFileName, CreationCollisionOption.ReplaceExisting);
+            var writeStream = await configFile.OpenStreamForWriteAsync();
+            _xdoc.Save(writeStream);
             writeStream.Flush();
             writeStream.Dispose();
         }

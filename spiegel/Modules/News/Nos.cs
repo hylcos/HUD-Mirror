@@ -48,7 +48,7 @@ namespace spiegel
         private Grid headlineBox;
         private List<ScrollSlot> scrollSlots;
 
-        public Nos(Grid UiRoot) : base(UiRoot, 800, 300, new Thickness(10,110, 10, 10), HorizontalAlignment.Left, VerticalAlignment.Top, TimeSpan.FromSeconds(30))
+        public Nos(Grid UiRoot,Config config) : base(UiRoot, "News",config,800, 300, new Thickness(10,110, 10, 10), HorizontalAlignment.Left, VerticalAlignment.Top, TimeSpan.FromSeconds(30))
         {
             maxScrollSlots = ((int)widgetBox.Height / (fontsize + margin)) + 1;
             webUrl = new WebUrl(protocol, host, port);

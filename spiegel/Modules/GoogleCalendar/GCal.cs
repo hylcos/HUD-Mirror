@@ -23,7 +23,7 @@ namespace spiegel
         private HttpClient httpClient;
         private String access_token="", refresh_token="";
         private DateTime oldDateTime = DateTime.Now;
-        public GCal(String apiKey, Grid UiRoot, String refresh_token = "") :base(UiRoot,300,600,new Thickness(10,420,10,0),HorizontalAlignment.Right,VerticalAlignment.Top,TimeSpan.FromSeconds(30))
+        public GCal(String apiKey, Grid UiRoot,Config config,String refresh_token = "") :base(UiRoot,"GoogleCalendar",config , 300,600,new Thickness(10,420,10,0),HorizontalAlignment.Right,VerticalAlignment.Top,TimeSpan.FromSeconds(30))
         {
             httpClient = new HttpClient();
             this.apiKey = apiKey;

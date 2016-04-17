@@ -13,10 +13,14 @@ namespace spiegel
     class Widget: Updateable
     {
         private const bool showWidgetOutline = false;
+        protected string name;
+        protected Config config;
         protected Grid widgetBox { get; set; }
 
-        public Widget(Grid UiRoot, int width, int height, Thickness margin, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, TimeSpan updatePeriod) : base(updatePeriod)
+        public Widget(Grid UiRoot,String name, Config config, int width, int height, Thickness margin, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, TimeSpan updatePeriod) : base(updatePeriod)
         {
+            this.name = name;
+            this.config = config;
             widgetBox = new Grid();
             widgetBox.Width = width;
             widgetBox.Height = height;

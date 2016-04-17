@@ -23,7 +23,7 @@ namespace spiegel
         private const int port = 80;
         private HttpClient httpClient;
         private String location, apiKey;
-        public WeatherForecast(String apiKey,String location,Grid root) : base(root,200,120,new Thickness(10,10,10,10), HorizontalAlignment.Right , VerticalAlignment.Top, TimeSpan.FromSeconds(3))
+        public WeatherForecast(String apiKey,Config config,String location,Grid root) : base(root,"Weather",config,200,120,new Thickness(10,10,10,10), HorizontalAlignment.Right , VerticalAlignment.Top, TimeSpan.FromSeconds(3))
         {            
             this.apiKey = apiKey;
             this.location = location;

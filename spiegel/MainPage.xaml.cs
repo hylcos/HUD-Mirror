@@ -51,7 +51,7 @@ namespace spiegel
             checkBoot();
             initializeNetwork();
 
-            //initializeHud();
+            initializeHud();
         }
 
         private async void initializeNetwork()
@@ -98,12 +98,20 @@ namespace spiegel
                                     {
                                         value += ",";
                                     }
-                                    value += "{\"moduleName\":\"" + module.Key + "\",\"value\":" + ((module.Value) ? "\"on\"" : "\"off\"") + "}";
+                                    value += "{\"moduleName\":\"" + module.Key + "\",\"value\":" + ((module.Value) ? "true" : "false" )+ "}";
                                 }
                                 value += "]}";
                                 Debug.WriteLine(value);
                                 await writer.WriteLineAsync(value+"\n");
                                 await writer.FlushAsync();
+                                break;
+                            case "enableModule":
+                                String moduleName = jsonObject.GetNamedString("module");
+                                config.setSetting(moduleName, "enabled", "true");
+                                break;
+                            case "disableModule":
+                                String _moduleName = jsonObject.GetNamedString("module");
+                                config.setSetting(_moduleName, "enabled", "false");
                                 break;
                         }
                     } catch(Exception e)
@@ -117,7 +125,7 @@ namespace spiegel
                 }
             }catch(Exception e)
             {
-                Debug.WriteLine(e.ToString());
+                //Debug.WriteLine(e.ToString());
             }
             /*DataReader reader = new DataReader(args.Socket.InputStream);
             DataWriter writer = new DataWriter(args.Socket.OutputStream);
@@ -187,7 +195,7 @@ namespace spiegel
 
             uiRoot = root;
             config = new Config(moduleNames);
-            showUnableToStartMessage(uiRoot, "First Boot");
+            //showUnableToStartMessage(uiRoot, "First Boot");
             try
             {
                 await config.LoadFromFile();
@@ -199,7 +207,7 @@ namespace spiegel
             catch (UnableToReadConfigurationFileException e)
             {
                 //kan config file niet lezen, programma mag niet verder gaan! (kan wel een foutmelding weergeven in GUI)
-                showUnableToStartMessage(uiRoot, e.Message);
+                //showUnableToStartMessage(uiRoot, e.Message);
                 firstBoot();
                 return;
             }
@@ -221,6 +229,7 @@ namespace spiegel
             {
                 modules[moduleName] = false;
             }
+            config.makeFile(moduleNames);
         }
 
         private async void initializeHud()
@@ -229,8 +238,8 @@ namespace spiegel
             updateables = new List<Updateable>();
 
 
-            //clock = new Clock(uiRoot);
-            //updateables.Add(clock);
+            clock = new Clock(uiRoot,config);
+            updateables.Add(clock);
 
             //nosFeed = new Nos(uiRoot);
            // updateables.Add(nosFeed);
@@ -259,7 +268,7 @@ namespace spiegel
                 await Task.Delay(updateable.updatePeriod);
                 
             }
-            throw new Exception();
+            //throw new Exception();
         }
 
 
