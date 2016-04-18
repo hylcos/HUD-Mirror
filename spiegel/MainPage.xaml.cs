@@ -82,6 +82,10 @@ namespace spiegel
                     Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
                     StreamWriter writer = new StreamWriter(outStream);
 
+                    if(request == null)
+                    {
+                        break;
+                    }
                     try
                     {
                         JsonObject jsonObject = JsonObject.Parse(request);
