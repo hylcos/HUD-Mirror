@@ -241,8 +241,8 @@ namespace spiegel
             clock = new Clock(uiRoot,config);
             updateables.Add(clock);
 
-            //nosFeed = new Nos(uiRoot);
-           // updateables.Add(nosFeed);
+            nosFeed = new Nos(uiRoot,config);
+            updateables.Add(nosFeed);
 
 
             //gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey], uiRoot,config.settings[Config.ConfigType.googleRefreshKey]);//config.settings[Config.ConfigType.googleRefreshKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"

@@ -37,7 +37,7 @@ namespace spiegel
         private const String protocol = "http";
         private const String host = "feeds.nos.nl";
         private const int port = 80;
-
+        private bool paused = false;
 
         private HttpClient httpClient;
         private WebUrl webUrl;
@@ -115,8 +115,17 @@ namespace spiegel
         public override async void update()
         {
             headlineBox.Children.Clear();
-
-            headlines = await getHeadlines();
+            if(config.getEnabled(name))
+            {
+                headlines = await getHeadlines();
+                paused = false;
+            }
+            else
+            {
+                paused = true;
+                setUpdatePeriod(TimeSpan.FromMilliseconds(100));
+            }
+            
         }
 
 
@@ -134,41 +143,46 @@ namespace spiegel
 
             while (true)
             {
-                if(headlineQueue.Count == 0)
+                while (!paused)
                 {
-                    foreach(Headline hl in headlines)
+                    if (headlineQueue.Count == 0)
                     {
-                        headlineQueue.Enqueue(hl);
-                    }
-                }
-
-                headlineBox.Children.Clear();
-                
-                foreach(ScrollSlot sl in scrollSlots) {
-                    int currentPosition = sl.lastPosition;
-                    int newPosition = ((sl.position + scrollPostion) % ((int)widgetBox.Height + (fontsize))) - (fontsize + margin);
-
-                    if (newPosition < currentPosition && headlineQueue.Count > 0) //slot is naar boven gesprongen
-                    {
-                        sl.headline = headlineQueue.Dequeue();
+                        foreach (Headline hl in headlines)
+                        {
+                            headlineQueue.Enqueue(hl);
+                        }
                     }
 
-                    TextBlock tb = new TextBlock();
-                    tb.FontSize = fontsize;
-                    tb.Foreground = new SolidColorBrush(Colors.White);
-                    tb.TextAlignment = TextAlignment.Left;
-                    tb.Text = sl.headline.ToString();
-                    tb.Margin = new Thickness(0, newPosition, 0, 0);
-                    tb.TextWrapping = TextWrapping.WrapWholeWords;
+                    headlineBox.Children.Clear();
 
-                    sl.lastPosition = newPosition;
+                    foreach (ScrollSlot sl in scrollSlots)
+                    {
+                        int currentPosition = sl.lastPosition;
+                        int newPosition = ((sl.position + scrollPostion) % ((int)widgetBox.Height + (fontsize))) - (fontsize + margin);
 
-                    headlineBox.Children.Add(tb);
+                        if (newPosition < currentPosition && headlineQueue.Count > 0) //slot is naar boven gesprongen
+                        {
+                            sl.headline = headlineQueue.Dequeue();
+                        }
+
+                        TextBlock tb = new TextBlock();
+                        tb.FontSize = fontsize;
+                        tb.Foreground = new SolidColorBrush(Colors.White);
+                        tb.TextAlignment = TextAlignment.Left;
+                        tb.Text = sl.headline.ToString();
+                        tb.Margin = new Thickness(0, newPosition, 0, 0);
+                        tb.TextWrapping = TextWrapping.WrapWholeWords;
+
+                        sl.lastPosition = newPosition;
+
+                        headlineBox.Children.Add(tb);
+                    }
+
+                    scrollPostion += 1;
+
+                    await Task.Delay(TimeSpan.FromMilliseconds(35));
                 }
-
-                scrollPostion += 1;
-
-                 await Task.Delay(TimeSpan.FromMilliseconds(35));
+                await Task.Delay(TimeSpan.FromMilliseconds(35));
             }
         }
 

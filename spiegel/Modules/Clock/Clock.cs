@@ -28,6 +28,7 @@ namespace spiegel
             if (config.getEnabled(name))
             {
                 //Debug.WriteLine("Weather Forecast: " + Marshal.SizeOf(this));
+                setUpdatePeriod(TimeSpan.FromSeconds(1));
                 DateTime dateTime = DateTime.Now;
                 String minute, second;
                 if (dateTime.Minute < 10)
@@ -70,6 +71,7 @@ namespace spiegel
             }
             else
             {
+                setUpdatePeriod(TimeSpan.FromMilliseconds(100));
                 clearWidget();
             }
         }
