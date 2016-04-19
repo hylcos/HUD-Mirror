@@ -72,6 +72,40 @@ namespace spiegel
             }
         }
 
+        public async Task<String> getModules()
+        {
+            String value = "{";
+            value += "\"commando\":\"giveModules\",";
+            value += "\"modules\": [";
+            foreach (KeyValuePair<string, bool> module in modules)
+            {
+                if (value.Last() == '}')
+                {
+                    value += ",";
+                }
+                value += "{\"moduleName\":\"" + module.Key + "\",\"value\":" + ((module.Value) ? "true" : "false") + "}";
+            }
+            value += "]}";
+            return value;
+        }
+
+        public async Task<String> getSettings(String moduleNameSettings)
+        {
+            String value = "{";
+            value += "\"commando\":\"giveSettings\",";
+            value += "\"module\":\""+moduleNameSettings+"\",";
+            value += "\"settings\": [";
+            foreach (KeyValuePair<string, string> setting in config.getModuleSettings(moduleNameSettings))
+            {
+                if (value.Last() == '}')
+                {
+                    value += ",";
+                }
+                value += "{\""+setting.Key+" \":\"" + setting.Value + "\"}";
+            }
+            value += "]}";
+            return value;
+        }
         private async void OnConnection(StreamSocketListener sender, StreamSocketListenerConnectionReceivedEventArgs args)
         {
             try {
@@ -90,27 +124,29 @@ namespace spiegel
                     {
                         JsonObject jsonObject = JsonObject.Parse(request);
                         String commando = jsonObject.GetNamedString("commando");
+                        String moduleName,value,setting;
                         switch (commando)
                         {
                             case "getModules":
-                                String value = "{";
-                                value += "\"commando\":\"giveModules\",";
-                                value += "\"modules\": [";
-                                foreach(KeyValuePair<string, bool> module in modules)
-                                {
-                                    if(value.Last() == '}')
-                                    {
-                                        value += ",";
-                                    }
-                                    value += "{\"moduleName\":\"" + module.Key + "\",\"value\":" + ((module.Value) ? "true" : "false" )+ "}";
-                                }
-                                value += "]}";
-                                Debug.WriteLine(value);
-                                await writer.WriteLineAsync(value+"\n");
+                                String modulesJson = await getModules();
+                                Debug.WriteLine(modulesJson);
+                                await writer.WriteLineAsync(modulesJson + "\n");
                                 await writer.FlushAsync();
                                 break;
+                            case "getSettings":
+                                moduleName = jsonObject.GetNamedString("module");
+                                String settingsJson = await getSettings(moduleName);
+                                Debug.WriteLine(settingsJson);
+                                await writer.WriteLineAsync(settingsJson + "\n");
+                                await writer.FlushAsync();
+                                break;
+                            case "setSetting":
+                                moduleName = jsonObject.GetNamedString("module");
+                                setting = jsonObject.GetNamedString("setting");
+                                value = jsonObject.GetNamedString("value");
+                                break;
                             case "enableModule":
-                                String moduleName = jsonObject.GetNamedString("module");
+                                moduleName = jsonObject.GetNamedString("module");
                                 config.setSetting(moduleName, "enabled", "true");
                                 break;
                             case "disableModule":
@@ -131,59 +167,6 @@ namespace spiegel
             {
                 //Debug.WriteLine(e.ToString());
             }
-            /*DataReader reader = new DataReader(args.Socket.InputStream);
-            DataWriter writer = new DataWriter(args.Socket.OutputStream);
-            try
-            {
-                Debug.WriteLine("Made a connection");
-                while (true)
-                {
-                    writer.WriteString("Hello World");
-                    // Read first 4 bytes (length of the subsequent string).
-                    uint sizeFieldCount = await reader.LoadAsync(sizeof(uint));
-                    Debug.WriteLine(reader.ReadString(sizeFieldCount));
-                    if (sizeFieldCount != sizeof(uint))
-                    {
-                        // The underlying socket was closed before we were able to read the whole data.
-                        return;
-                    }
-
-                    // Read the string.
-                    uint stringLength = reader.ReadUInt32();
-                    uint actualStringLength = await reader.LoadAsync(stringLength);
-                    Debug.WriteLine(reader.ReadString(actualStringLength));
-                    if (stringLength != actualStringLength)
-                    {
-                        // The underlying socket was closed before we were able to read the whole data.
-                        return;
-                    }
-                    
-
-
-                }
-            }
-            catch (Exception exception)
-            {
-                // If this is an unknown status it means that the error is fatal and retry will likely fail.
-                if (SocketError.GetStatus(exception.HResult) == SocketErrorStatus.Unknown)
-                {
-                    throw;
-                }
-                
-            }
-           
-            //Read line from the remote client.
-            /*Stream inStream = args.Socket.InputStream.AsStreamForRead();
-            StreamReader reader = new StreamReader(inStream);
-            string request = await reader.ReadLineAsync();
-
-            //Send the line back to the remote client.
-            Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
-            StreamWriter writer = new StreamWriter(outStream);
-            await writer.WriteLineAsync(request);
-            await writer.FlushAsync();*/
-            //Read line from the remote client. 
-
         }
 
         private async void checkBoot()

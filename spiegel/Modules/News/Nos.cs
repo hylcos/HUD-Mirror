@@ -118,6 +118,7 @@ namespace spiegel
             if(config.getEnabled(name))
             {
                 headlines = await getHeadlines();
+                setUpdatePeriod(TimeSpan.FromSeconds(30));
                 paused = false;
             }
             else

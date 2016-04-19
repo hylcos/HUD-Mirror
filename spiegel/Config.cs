@@ -58,7 +58,6 @@ namespace spiegel
             }
             return false;
         }
-
         private async Task writeToFile()
         {
             configFile = await storageFolder.CreateFileAsync(configFileName, CreationCollisionOption.ReplaceExisting);
@@ -85,7 +84,6 @@ namespace spiegel
             this.moduleNames = moduleNames;
             settings = new Dictionary<string,Dictionary<string,string>>();
         }
-
         public async Task LoadFromFile()
         {
            xdoc  = new XmlDocument();
@@ -142,6 +140,10 @@ namespace spiegel
         {
             return settings[moduleName][setting];
         }
+        public Dictionary<string, string> getModuleSettings(string moduleName)
+        {
+            return settings[moduleName];
+        }
         public void setSetting(string moduleName,string setting,string value)
         {
             if (hasSetting(moduleName, setting))
@@ -188,7 +190,6 @@ namespace spiegel
             writeStream.Flush();
             writeStream.Dispose();
         }
-
         public async Task makeFile(List<string> moduleNames)
         {
             XmlDocument _xdoc = new XmlDocument();
