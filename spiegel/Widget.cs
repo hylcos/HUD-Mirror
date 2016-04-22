@@ -16,7 +16,7 @@ namespace spiegel
         protected string name;
         protected Config config;
         protected Grid widgetBox { get; set; }
-
+        protected bool state;
         public Widget(Grid UiRoot,String name, Config config, int width, int height, Thickness margin, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, TimeSpan updatePeriod) : base(updatePeriod)
         {
             this.name = name;
@@ -41,7 +41,16 @@ namespace spiegel
         {
             widgetBox.Children.Clear();
         }
-
+        public bool updateEnabled()
+        {
+            bool newState = (config.getSetting(name, "enabled") == "true") ? true : false;
+            if(newState != state)
+            {
+                state = newState;
+                return true;
+            }
+            return false;
+        }
         protected void addToWidget(UIElement element)
         {
             widgetBox.Children.Add(element);

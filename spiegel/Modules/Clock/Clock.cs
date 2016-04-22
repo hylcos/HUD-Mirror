@@ -16,19 +16,21 @@ namespace spiegel
     {
         public Clock(Grid UiRoot,Config config) : base(UiRoot,"Clock",config, 250, 65, new Thickness(10,10,10,10), HorizontalAlignment.Center, VerticalAlignment.Top, TimeSpan.FromSeconds(1))
         {
-            if(!config.hasSetting(name, "clockType"))
-            {
-                config.makeSetting(name, "clockType", "24");
-            }
-
+            
+            state = config.getEnabled(name);
         }
-
+        public async void checkSettings()
+        {
+            if (!config.hasSetting(name, "clockType"))
+            {
+                await config.makeSetting(name, "clockType", "24");
+            }
+        }
         public override void update()
         {
-            if (config.getEnabled(name))
+            if (state)
             {
                 //Debug.WriteLine("Weather Forecast: " + Marshal.SizeOf(this));
-                setUpdatePeriod(TimeSpan.FromSeconds(1));
                 DateTime dateTime = DateTime.Now;
                 String minute, second;
                 if (dateTime.Minute < 10)
@@ -71,7 +73,6 @@ namespace spiegel
             }
             else
             {
-                setUpdatePeriod(TimeSpan.FromMilliseconds(100));
                 clearWidget();
             }
         }

@@ -148,15 +148,17 @@ namespace spiegel
                             case "enableModule":
                                 moduleName = jsonObject.GetNamedString("module");
                                 config.setSetting(moduleName, "enabled", "true");
+                                //updateEnabled(moduleName);
                                 break;
                             case "disableModule":
-                                String _moduleName = jsonObject.GetNamedString("module");
-                                config.setSetting(_moduleName, "enabled", "false");
+                                moduleName = jsonObject.GetNamedString("module");
+                                config.setSetting(moduleName, "enabled", "false");
+                                //updateEnabled(moduleName);
                                 break;
                         }
                     } catch(Exception e)
                     {
-
+                        Debug.WriteLine(e.ToString());
                     }
                     //Send the line back to the remote client. 
 
@@ -168,6 +170,25 @@ namespace spiegel
                 //Debug.WriteLine(e.ToString());
             }
         }
+
+        /*private void updateEnabled(string moduleName)
+        {
+            switch (moduleName)
+            {
+                case "Clock":
+                    clock.updateEnabled();
+                    break;
+                case "GoogleCalendar":
+                    gCal.updateEnabled();
+                    break;
+                case "News":
+                    nosFeed.updateEnabled();
+                    break;
+                case "Weather":
+                    weatherData.updateEnabled();
+                    break;
+            }
+        }*/
 
         private async void checkBoot()
         {
@@ -191,11 +212,11 @@ namespace spiegel
                     modules[moduleName] = (config.getSetting(moduleName,"enabled") == "true"? true : false);
                 }
             }
-            catch (UnableToReadConfigurationFileException e)
-            {
+            catch (UnableToReadConfigurationFileException e) { 
+            
                 //kan config file niet lezen, programma mag niet verder gaan! (kan wel een foutmelding weergeven in GUI)
                 //showUnableToStartMessage(uiRoot, e.Message);
-                firstBoot();
+                await firstBoot();
                 return;
             }
             catch (UnableToAsignConfigurationSettingsException e)
@@ -210,13 +231,14 @@ namespace spiegel
             }
         }
 
-        private void firstBoot()
+        private async Task firstBoot()
         {
             foreach(string moduleName in moduleNames)
             {
                 modules[moduleName] = false;
             }
-            config.makeFile(moduleNames);
+            Debug.WriteLine("Making new file");
+            await config.makeFile(moduleNames);
         }
 
         private async void initializeHud()
@@ -226,6 +248,7 @@ namespace spiegel
 
 
             clock = new Clock(uiRoot,config);
+            clock.checkSettings();
             updateables.Add(clock);
 
             nosFeed = new Nos(uiRoot,config);
@@ -235,8 +258,9 @@ namespace spiegel
             //gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey], uiRoot,config.settings[Config.ConfigType.googleRefreshKey]);//config.settings[Config.ConfigType.googleRefreshKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
             //updateables.Add(gCal);
 
-            //weatherData = new WeatherForecast("11e536b32932b598cfb0b085d19fb203", "Nieuwegein,nl",uiRoot);
-           // updateables.Add(weatherData);
+            weatherData = new WeatherForecast(uiRoot,config);
+            weatherData.checkSettings();
+            updateables.Add(weatherData);
 
             //er wordt een thread aangemaakt voor alle updateables
             foreach (Updateable updateable in updateables)
@@ -250,9 +274,17 @@ namespace spiegel
         {
              while (true)
             {
-                updateable.update();  
-                //await Task.Delay(TimeSpan.FromSeconds(1));        
-                await Task.Delay(updateable.updatePeriod);
+                updateable.update();
+                double time = updateable.updatePeriod.TotalSeconds;
+                while (time > 0)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(1));
+                    if (((Widget)updateable).updateEnabled())
+                    {
+                        time = 0;
+                    }
+                    time--;
+                }       
                 
             }
             //throw new Exception();

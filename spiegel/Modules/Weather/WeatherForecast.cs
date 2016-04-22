@@ -23,69 +23,81 @@ namespace spiegel
         private const int port = 80;
         private HttpClient httpClient;
         private String location, apiKey;
-        public WeatherForecast(String apiKey,Config config,String location,Grid root) : base(root,"Weather",config,200,120,new Thickness(10,10,10,10), HorizontalAlignment.Right , VerticalAlignment.Top, TimeSpan.FromSeconds(3))
-        {            
-            this.apiKey = apiKey;
-            this.location = location;
+        public WeatherForecast(Grid root,Config config) : base(root,"Weather",config,200,120,new Thickness(10,10,10,10), HorizontalAlignment.Right , VerticalAlignment.Top, TimeSpan.FromMinutes(10))
+        {          
             httpClient = new HttpClient();
             
         }
+        public async void checkSettings()
+        {
+            if (!config.hasSetting(name, "location"))
+            {
+                await config.makeSetting(name, "location", "Amsterdam, NL");
+            }
+        }
         public async override void update()
         {
-            Debug.WriteLine("Weather Forecast UPDATE");
-            Grid grid = new Grid();
-            Forecast forecast = await getForecast();
-            //Image
-            Image image = new Image();
-            BitmapImage bimage = new BitmapImage(new Uri("ms-appx:///Assets/" + forecast.icon + ".png"));
-            image.Source = bimage;
-            image.RenderTransformOrigin = new Point(0.5, 0.5);
-            image.Width = 50;
-            image.Height = 50;
-            image.Margin = new Thickness(0, 0, 100, 50);
+            if (state)
+            {
+                Debug.WriteLine("Weather Forecast UPDATE");
+                Grid grid = new Grid();
+                Forecast forecast = await getForecast();
+                //Image
+                Image image = new Image();
+                BitmapImage bimage = new BitmapImage(new Uri("ms-appx:///Assets/" + forecast.icon + ".png"));
+                image.Source = bimage;
+                image.RenderTransformOrigin = new Point(0.5, 0.5);
+                image.Width = 50;
+                image.Height = 50;
+                image.Margin = new Thickness(0, 0, 100, 50);
 
-            //Sun(set/rise)
-            TextBlock tb = new TextBlock();
-            tb.Text = "Sunrise: " + forecast.sunrise.Hour + ":" + forecast.sunrise.Minute + "\n" + "Sunset: " + forecast.sunset.Hour + ":" + forecast.sunset.Minute;
-            tb.FontSize = 14;
-            tb.Foreground = new SolidColorBrush(Colors.White);
-            tb.Margin = new Thickness(0, 55, 0, 0);
+                //Sun(set/rise)
+                TextBlock tb = new TextBlock();
+                tb.Text = "Sunrise: " + forecast.sunrise.Hour + ":" + forecast.sunrise.Minute + "\n" + "Sunset: " + forecast.sunset.Hour + ":" + forecast.sunset.Minute;
+                tb.FontSize = 14;
+                tb.Foreground = new SolidColorBrush(Colors.White);
+                tb.Margin = new Thickness(0, 55, 0, 0);
 
-            //Temp
-            TextBlock temp = new TextBlock();
-            temp.Text = "Min: " + forecast.minTemp + "  --  Max: " + forecast.maxTemp;
-            temp.FontSize = 10;
-            temp.Foreground = new SolidColorBrush(Colors.White);
-            temp.Margin = new Thickness(105, 0, 0, 0);
+                //Temp
+                TextBlock temp = new TextBlock();
+                temp.Text = "Min: " + forecast.minTemp + "  --  Max: " + forecast.maxTemp;
+                temp.FontSize = 10;
+                temp.Foreground = new SolidColorBrush(Colors.White);
+                temp.Margin = new Thickness(105, 0, 0, 0);
 
-            TextBlock temp2 = new TextBlock();
-            temp2.Text = "Gem: " + forecast.temp;
-            temp2.FontSize = 20;
-            temp2.Foreground = new SolidColorBrush(Colors.White);
-            temp2.Margin = new Thickness(100, 20, 0, 0);
+                TextBlock temp2 = new TextBlock();
+                temp2.Text = "Gem: " + forecast.temp;
+                temp2.FontSize = 20;
+                temp2.Foreground = new SolidColorBrush(Colors.White);
+                temp2.Margin = new Thickness(100, 20, 0, 0);
 
-            //WindSpeed
-            Image wind = new Image();
-            BitmapImage windbimage = new BitmapImage(new Uri("ms-appx:///Assets/wind.png"));
-            CompositeTransform ts = new CompositeTransform();
-            ts.Rotation = Convert.ToDouble(forecast.windDir);
-            wind.Source = windbimage;
-            wind.RenderTransform = ts;
-            wind.RenderTransformOrigin = new Point(0.5, 0.5);
-            wind.Width = 50;
-            wind.Height = 50;
-            wind.Margin = new Thickness(100, 50, 0, 0);
+                //WindSpeed
+                Image wind = new Image();
+                BitmapImage windbimage = new BitmapImage(new Uri("ms-appx:///Assets/wind.png"));
+                CompositeTransform ts = new CompositeTransform();
+                ts.Rotation = Convert.ToDouble(forecast.windDir);
+                wind.Source = windbimage;
+                wind.RenderTransform = ts;
+                wind.RenderTransformOrigin = new Point(0.5, 0.5);
+                wind.Width = 50;
+                wind.Height = 50;
+                wind.Margin = new Thickness(100, 50, 0, 0);
 
 
 
-            grid.Children.Add(tb);
-            grid.Children.Add(image);
-            grid.Children.Add(temp);
-            grid.Children.Add(temp2);
-            grid.Children.Add(wind);
+                grid.Children.Add(tb);
+                grid.Children.Add(image);
+                grid.Children.Add(temp);
+                grid.Children.Add(temp2);
+                grid.Children.Add(wind);
 
-            clearWidget();
-            addToWidget(grid);                  
+                clearWidget();
+                addToWidget(grid);
+            }
+            else
+            {
+                clearWidget();
+            }      
                                                    
             //Debug.WriteLine("Weather Forecast: " + Marshal.SizeOf(grid));
             
@@ -103,9 +115,9 @@ namespace spiegel
                 "weather"
             };
             WebUrl.Query[] querys = {
-                new WebUrl.Query("q", location),
+                new WebUrl.Query("q", config.getSetting(name,"location")),
                 new WebUrl.Query("mode", "xml"),
-                new WebUrl.Query("appid", apiKey),
+                new WebUrl.Query("appid", "11e536b32932b598cfb0b085d19fb203"),
                 new WebUrl.Query("units","metric")
             };
             webUrl.addPath(paths);

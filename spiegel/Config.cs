@@ -36,6 +36,40 @@ namespace spiegel
                 }
                 else
                 {
+                    try {
+                        settings[name][v1] = v2;
+                        XmlNodeList element = xdoc.GetElementsByTagName("configuration");
+                        XmlNode modules = element.Item(0);
+                        foreach (XmlNode xn in modules)
+                        {
+                            foreach (XmlNode x in xn)
+                            {
+                                if (x.Attributes.Item(0).InnerXml == name)
+                                {
+                                    XmlNode newNode = xdoc.CreateElement(v1);
+                                    newNode.InnerText = v2;
+                                    x.AppendChild(newNode);
+                                }
+                            }
+
+                        }
+                        await writeToFile();
+                        return true;
+                    }catch(Exception e)
+                    {
+                        Debug.WriteLine("XML FOUND");
+                        Debug.WriteLine(e.ToString());
+                    }
+                }
+            }
+            return false;
+        }
+        public async Task<bool> changeSetting(string name, string v1, string v2)
+        {
+            Debug.WriteLine("Changing Setting");
+            try {
+                if (settings.Keys.Contains(name))
+                {
                     settings[name][v1] = v2;
                     XmlNodeList element = xdoc.GetElementsByTagName("configuration");
                     XmlNode modules = element.Item(0);
@@ -45,9 +79,13 @@ namespace spiegel
                         {
                             if (x.Attributes.Item(0).InnerXml == name)
                             {
-                                XmlNode newNode = xdoc.CreateElement(v1);
-                                newNode.InnerText = v2;
-                                x.AppendChild(newNode);
+                                foreach (XmlNode _x in x)
+                                {
+                                    if (_x.Name == v1)
+                                    {
+                                        _x.InnerText = v2;
+                                    }
+                                }
                             }
                         }
 
@@ -55,16 +93,26 @@ namespace spiegel
                     await writeToFile();
                     return true;
                 }
+                return false;
+            }catch(Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                return false;
             }
-            return false;
         }
         private async Task writeToFile()
         {
+            Debug.WriteLine("Opening File2");
             configFile = await storageFolder.CreateFileAsync(configFileName, CreationCollisionOption.ReplaceExisting);
+            Debug.WriteLine("Opening File3");
             var writeStream = await configFile.OpenStreamForWriteAsync();
+            Debug.WriteLine("Opening File4");
             xdoc.Save(writeStream);
+            Debug.WriteLine("Opening File5");
             writeStream.Flush();
+            Debug.WriteLine("Opening File6");
             writeStream.Dispose();
+            Debug.WriteLine("Opening File7");
         }
         public bool hasSetting(string name, string v)
         {
@@ -138,22 +186,48 @@ namespace spiegel
         }
         public string getSetting(string moduleName,string setting)
         {
-            return settings[moduleName][setting];
+            try {
+                return settings[moduleName][setting];
+            }
+            catch(Exception e)
+            {
+                Debug.WriteLine(moduleName);
+                Debug.WriteLine(setting);
+                Debug.WriteLine(e.ToString());
+                return "";
+            }
         }
         public Dictionary<string, string> getModuleSettings(string moduleName)
         {
-            return settings[moduleName];
+            try
+            {
+                return settings[moduleName];
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                return new Dictionary<string, string>();
+            }
         }
-        public void setSetting(string moduleName,string setting,string value)
+        public async void setSetting(string moduleName,string setting,string value)
         {
             if (hasSetting(moduleName, setting))
             {
                 settings[moduleName][setting] = value;
+                await changeSetting(moduleName, setting, value);
             }
         }
         public bool getEnabled(string moduleName)
         {
-            return (settings[moduleName]["enabled"] == "true")? true :false  ;
+            try
+            {
+                return (settings[moduleName]["enabled"] == "true")? true :false  ;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                return false;
+            }
         }
         public async void storeToFile()
         {
@@ -192,28 +266,34 @@ namespace spiegel
         }
         public async Task makeFile(List<string> moduleNames)
         {
-            XmlDocument _xdoc = new XmlDocument();
-            XmlNode root = _xdoc.CreateNode(XmlNodeType.Element, "configuration", null);
-            XmlNode modules = _xdoc.CreateNode(XmlNodeType.Element, "modules", null);
+            Debug.WriteLine("There wasn't a file o we are making one");
+            xdoc = new XmlDocument();
+            XmlNode root = xdoc.CreateNode(XmlNodeType.Element, "configuration", null);
+            XmlNode modules = xdoc.CreateNode(XmlNodeType.Element, "modules", null);
 
             foreach(String moduleName in moduleNames){
-                XmlNode module = _xdoc.CreateNode(XmlNodeType.Element, "module", null);
-                XmlAttribute attr = _xdoc.CreateAttribute("name");
+                XmlNode module = xdoc.CreateNode(XmlNodeType.Element, "module", null);
+                XmlAttribute attr = xdoc.CreateAttribute("name");
                 attr.Value = moduleName;
                 module.Attributes.Append(attr);
 
-                XmlNode enabled = _xdoc.CreateElement("enabled");
+                XmlNode enabled = xdoc.CreateElement("enabled");
                 enabled.InnerText = "false";
 
                 module.AppendChild(enabled);
 
                 modules.AppendChild(module);
+
+                settings[moduleName] = new Dictionary<string, string>();
+                settings[moduleName]["enabled"] = "false";
+
             }
             root.AppendChild(modules);
-            _xdoc.AppendChild(root);
+            xdoc.AppendChild(root);
+
             configFile = await storageFolder.CreateFileAsync(configFileName, CreationCollisionOption.ReplaceExisting);
             var writeStream = await configFile.OpenStreamForWriteAsync();
-            _xdoc.Save(writeStream);
+            xdoc.Save(writeStream);
             writeStream.Flush();
             writeStream.Dispose();
         }

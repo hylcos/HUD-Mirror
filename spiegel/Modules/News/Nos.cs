@@ -50,6 +50,9 @@ namespace spiegel
 
         public Nos(Grid UiRoot,Config config) : base(UiRoot, "News",config,800, 300, new Thickness(10,110, 10, 10), HorizontalAlignment.Left, VerticalAlignment.Top, TimeSpan.FromSeconds(30))
         {
+
+            state = config.getEnabled(name);
+
             maxScrollSlots = ((int)widgetBox.Height / (fontsize + margin)) + 1;
             webUrl = new WebUrl(protocol, host, port);
             string[] paths = {
@@ -114,18 +117,10 @@ namespace spiegel
 
         public override async void update()
         {
-            headlineBox.Children.Clear();
-            if(config.getEnabled(name))
-            {
-                headlines = await getHeadlines();
-                setUpdatePeriod(TimeSpan.FromSeconds(30));
-                paused = false;
-            }
-            else
-            {
-                paused = true;
-                setUpdatePeriod(TimeSpan.FromMilliseconds(100));
-            }
+            //headlineBox.Children.Clear();
+            headlines = await getHeadlines();
+            //clearWidget();
+
             
         }
 
@@ -144,7 +139,8 @@ namespace spiegel
 
             while (true)
             {
-                while (!paused)
+                headlineBox.Children.Clear();
+                while (state)
                 {
                     if (headlineQueue.Count == 0)
                     {
@@ -153,7 +149,6 @@ namespace spiegel
                             headlineQueue.Enqueue(hl);
                         }
                     }
-
                     headlineBox.Children.Clear();
 
                     foreach (ScrollSlot sl in scrollSlots)
