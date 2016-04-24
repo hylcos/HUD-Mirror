@@ -46,7 +46,21 @@ namespace spiegel
                 clearWidget();
 
                 TextBlock clock = new TextBlock();
-                clock.Text = dateTime.Hour % Int32.Parse(config.getSetting(name,"clockType")) + ":" + minute;
+                if(config.getSetting(name, "clockType")== "24")
+                {
+                    clock.Text = dateTime.Hour  + ":" + minute;
+                }else
+                {
+                    if (dateTime.Hour > 12)
+                    {
+                        clock.Text = dateTime.Hour % Int32.Parse(config.getSetting(name, "clockType")) + ":" + minute;
+                    }
+                    else
+                    {
+                        clock.Text = dateTime.Hour  + ":" + minute;
+                    }
+                }
+                
                 clock.Foreground = new SolidColorBrush(Colors.White);
                 clock.TextAlignment = TextAlignment.Center;
                 clock.FontSize = 40;

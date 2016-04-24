@@ -102,17 +102,10 @@ namespace spiegel
         }
         private async Task writeToFile()
         {
-            Debug.WriteLine("Opening File2");
             configFile = await storageFolder.CreateFileAsync(configFileName, CreationCollisionOption.ReplaceExisting);
-            Debug.WriteLine("Opening File3");
             var writeStream = await configFile.OpenStreamForWriteAsync();
-            Debug.WriteLine("Opening File4");
             xdoc.Save(writeStream);
-            Debug.WriteLine("Opening File5");
-            writeStream.Flush();
-            Debug.WriteLine("Opening File6");
             writeStream.Dispose();
-            Debug.WriteLine("Opening File7");
         }
         public bool hasSetting(string name, string v)
         {

@@ -101,7 +101,7 @@ namespace spiegel
                 {
                     value += ",";
                 }
-                value += "{\""+setting.Key+" \":\"" + setting.Value + "\"}";
+                value += "{\""+setting.Key + "\":\"" + setting.Value + "\"}";
             }
             value += "]}";
             return value;
@@ -140,11 +140,6 @@ namespace spiegel
                                 await writer.WriteLineAsync(settingsJson + "\n");
                                 await writer.FlushAsync();
                                 break;
-                            case "setSetting":
-                                moduleName = jsonObject.GetNamedString("module");
-                                setting = jsonObject.GetNamedString("setting");
-                                value = jsonObject.GetNamedString("value");
-                                break;
                             case "enableModule":
                                 moduleName = jsonObject.GetNamedString("module");
                                 config.setSetting(moduleName, "enabled", "true");
@@ -155,6 +150,13 @@ namespace spiegel
                                 config.setSetting(moduleName, "enabled", "false");
                                 //updateEnabled(moduleName);
                                 break;
+                            case "setSetting":
+                                moduleName = jsonObject.GetNamedString("module");
+                                String settingName = jsonObject.GetNamedString("settingName");
+                                String settingValue = jsonObject.GetNamedString("settingValue");
+                                config.setSetting(moduleName, settingName, settingValue);
+                                break;
+
                         }
                     } catch(Exception e)
                     {
