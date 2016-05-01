@@ -17,6 +17,7 @@ namespace spiegel
         protected Config config;
         protected Grid widgetBox { get; set; }
         protected bool state;
+
         public Widget(Grid UiRoot,String name, Config config, int width, int height, Thickness margin, HorizontalAlignment horizontalAlignment, VerticalAlignment verticalAlignment, TimeSpan updatePeriod) : base(updatePeriod)
         {
             this.name = name;
@@ -50,6 +51,22 @@ namespace spiegel
                 return true;
             }
             return false;
+        }
+        public bool settingChanged()
+        {
+            try
+            {
+                if(config.getSetting(name, "changed") == "true" ? true : false)
+                {
+                    config.setSettingChanged(name, false);
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
         protected void addToWidget(UIElement element)
         {

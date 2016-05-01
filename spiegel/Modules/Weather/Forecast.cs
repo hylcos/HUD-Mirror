@@ -98,8 +98,8 @@ namespace spiegel
         public String temp { get; private set; }
         public String minTemp { get; private set; }
         public String maxTemp { get; private set; }
-
-        public Forecast(DateTime sunrise, DateTime sunset, String type, String icon, String windDir, String windSpeed, String temp ,String minTemp, String maxTemp)
+        public String location { get; private set; }
+        public Forecast(DateTime sunrise, DateTime sunset, String type, String icon, String windDir, String windSpeed, String temp ,String minTemp, String maxTemp,String location)
         {
             this.type = type;
             this.sunrise = sunrise;
@@ -110,6 +110,7 @@ namespace spiegel
             this.temp = temp;
             this.minTemp = minTemp;
             this.maxTemp = maxTemp;
+            this.location = location;
         }
         public override String ToString()
         {

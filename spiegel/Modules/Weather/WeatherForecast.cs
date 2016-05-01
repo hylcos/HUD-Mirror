@@ -23,7 +23,7 @@ namespace spiegel
         private const int port = 80;
         private HttpClient httpClient;
         private String location, apiKey;
-        public WeatherForecast(Grid root,Config config) : base(root,"Weather",config,200,120,new Thickness(10,10,10,10), HorizontalAlignment.Right , VerticalAlignment.Top, TimeSpan.FromMinutes(10))
+        public WeatherForecast(Grid root,Config config) : base(root,"Weather",config,250,120,new Thickness(10,10,10,10), HorizontalAlignment.Right , VerticalAlignment.Top, TimeSpan.FromMinutes(10))
         {          
             httpClient = new HttpClient();
             
@@ -34,6 +34,19 @@ namespace spiegel
             {
                 await config.makeSetting(name, "location", "Amsterdam, NL");
             }
+            if (!config.hasSetting(name, "lat"))
+            {
+                await config.makeSetting(name, "lat", "52.3739206");
+            }
+            if (!config.hasSetting(name, "long"))
+            {
+                await config.makeSetting(name, "long", "4.8834042");
+            }
+            if (!config.hasSetting(name, "units"))
+            {
+                await config.makeSetting(name, "units", "metric");
+            }
+
         }
         public async override void update()
         {
@@ -67,9 +80,9 @@ namespace spiegel
 
                 TextBlock temp2 = new TextBlock();
                 temp2.Text = "Gem: " + forecast.temp;
-                temp2.FontSize = 20;
+                temp2.FontSize = 10;
                 temp2.Foreground = new SolidColorBrush(Colors.White);
-                temp2.Margin = new Thickness(100, 20, 0, 0);
+                temp2.Margin = new Thickness(0, 20, 0, 0);
 
                 //WindSpeed
                 Image wind = new Image();
@@ -83,12 +96,17 @@ namespace spiegel
                 wind.Height = 50;
                 wind.Margin = new Thickness(100, 50, 0, 0);
 
-
+                TextBlock temp3 = new TextBlock();
+                temp2.Text = "Location: " + forecast.location;
+                temp2.FontSize = 10;
+                temp2.Foreground = new SolidColorBrush(Colors.White);
+                temp2.Margin = new Thickness(0,100, 0, 0);
 
                 grid.Children.Add(tb);
                 grid.Children.Add(image);
                 grid.Children.Add(temp);
                 grid.Children.Add(temp2);
+                grid.Children.Add(temp3);
                 grid.Children.Add(wind);
 
                 clearWidget();
@@ -115,10 +133,11 @@ namespace spiegel
                 "weather"
             };
             WebUrl.Query[] querys = {
-                new WebUrl.Query("q", config.getSetting(name,"location")),
+                new WebUrl.Query("lat", config.getSetting(name,"lat")),
+                new WebUrl.Query("lon", config.getSetting(name,"long")),
                 new WebUrl.Query("mode", "xml"),
                 new WebUrl.Query("appid", "11e536b32932b598cfb0b085d19fb203"),
-                new WebUrl.Query("units","metric")
+                new WebUrl.Query("units",config.getSetting(name,"units"))
             };
             webUrl.addPath(paths);
             webUrl.addQuery(querys);
@@ -127,12 +146,13 @@ namespace spiegel
             {
                 XmlDocument xmlDocument = new XmlDocument();
                 xmlDocument.LoadXml(await httpClient.GetStringAsync(url));
+                Debug.WriteLine(xmlDocument.ToString());
                 XmlNode element = xmlDocument["current"];
                 DateTime sunset = new DateTime(), sunrise= new DateTime();
                 String mode = "", icon= "";
                 String temp = "", minTemp = "", maxTemp = "";
                 String speed = "", direction = "";
-
+                String location = "";
                 foreach (XmlNode x in element)
                 {
                     XmlAttributeCollection attributes = x.Attributes;
@@ -140,6 +160,7 @@ namespace spiegel
                     {
                         case "city":
                             XmlNode city = x["sun"];
+                            location = attributes[1].Value;
                             sunrise = Convert.ToDateTime(city.Attributes[0].Value).AddHours(1);
                             sunset = Convert.ToDateTime(city.Attributes[1].Value).AddHours(1);
                             break;
@@ -161,12 +182,12 @@ namespace spiegel
 
                     }
                 }
-                forecast = new Forecast(sunrise, sunset, mode, icon, direction, speed, temp, minTemp, maxTemp);
+                forecast = new Forecast(sunrise, sunset, mode, icon, direction, speed, temp, minTemp, maxTemp,location);
                 
             }
-            catch
+            catch(Exception e)
             {
-
+                Debug.WriteLine(e.ToString());
             }
             return forecast;
         }

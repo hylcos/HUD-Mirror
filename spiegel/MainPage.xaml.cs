@@ -155,6 +155,8 @@ namespace spiegel
                                 String settingName = jsonObject.GetNamedString("settingName");
                                 String settingValue = jsonObject.GetNamedString("settingValue");
                                 config.setSetting(moduleName, settingName, settingValue);
+                                config.setSettingChanged(moduleName, true);
+                                
                                 break;
 
                         }
@@ -282,6 +284,10 @@ namespace spiegel
                 {
                     await Task.Delay(TimeSpan.FromSeconds(1));
                     if (((Widget)updateable).updateEnabled())
+                    {
+                        time = 0;
+                    }
+                    if (((Widget)updateable).settingChanged())
                     {
                         time = 0;
                     }

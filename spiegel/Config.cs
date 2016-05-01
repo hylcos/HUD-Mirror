@@ -109,15 +109,18 @@ namespace spiegel
         }
         public bool hasSetting(string name, string v)
         {
-            Debug.WriteLine("Checking setting ");
+            Debug.WriteLine("Checking setting " + v);
             if (settings.Keys.Contains(name))
             {
                 if (settings[name].Keys.Contains(v))
                 {
+                    Debug.WriteLine("Checking setting: TRUE");
                     return true;
                 }
+                Debug.WriteLine("Checking setting: False");
                 return false;
             }
+            Debug.WriteLine("Checking setting: False");
             return false;
         }
         public Config(List<string> moduleNames)
@@ -159,7 +162,8 @@ namespace spiegel
                         {
                             settings[name][_x.Name] = _x.InnerText;
                         }
-                        
+                        settings[name]["changed"] = "false";
+
                     }
                 }
                 foreach(KeyValuePair<string, Dictionary<string, string>> entry in settings)
@@ -190,6 +194,19 @@ namespace spiegel
                 return "";
             }
         }
+
+        public void setSettingChanged(string moduleName, bool v)
+        {
+            try
+            {
+                settings[moduleName]["changed"] = v ? "true" : "false";
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
+        }
+
         public Dictionary<string, string> getModuleSettings(string moduleName)
         {
             try
