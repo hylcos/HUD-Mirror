@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using Windows.Foundation;
 using Windows.UI;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -48,7 +49,7 @@ namespace spiegel
         private Grid headlineBox;
         private List<ScrollSlot> scrollSlots;
 
-        public Nos(Grid UiRoot,Config config) : base(UiRoot, "News",config,800, 300, new Thickness(10,110, 10, 10), HorizontalAlignment.Left, VerticalAlignment.Top, TimeSpan.FromSeconds(30))
+        public Nos(Grid UiRoot,Config config) : base(UiRoot, "News",config,800, 300, new Thickness(10, 110, 10, 10), HorizontalAlignment.Right, VerticalAlignment.Top, TimeSpan.FromSeconds(30))
         {
 
             state = config.getEnabled(name);
@@ -105,12 +106,22 @@ namespace spiegel
             topHide.Margin = new Thickness(0, -(margin + fontsize), 0, 0);
             topHide.Fill = new SolidColorBrush(Colors.Black);
 
-            addToWidget(headlineBox);
+            TextBlock topText = new TextBlock();
+            topText.Height = margin + fontsize;
+            topText.VerticalAlignment = VerticalAlignment.Top;
+            topText.Margin = new Thickness(0, -(margin + fontsize), 0, 0);
+            topText.Text = "NIEUWS";
+            topText.FontSize = 20;
+            topText.HorizontalAlignment = HorizontalAlignment.Right;
+            topText.Foreground = new SolidColorBrush(Colors.White);
+            topText.FontWeight = FontWeights.Bold;
 
+            addToWidget(headlineBox);
+            
             addToWidget(topHide);
             addToWidget(topFade);
             addToWidget(bottomFade);
-
+            addToWidget(topText);
             ScrollThread();
         }
 
@@ -164,14 +175,25 @@ namespace spiegel
                         TextBlock tb = new TextBlock();
                         tb.FontSize = fontsize;
                         tb.Foreground = new SolidColorBrush(Colors.White);
-                        tb.TextAlignment = TextAlignment.Left;
+                        tb.Padding = new Thickness(0, 0, 70, 0);
+                        tb.TextAlignment = TextAlignment.Right;
                         tb.Text = sl.headline.ToString();
-                        tb.Margin = new Thickness(0, newPosition, 0, 0);
+                        tb.Margin = new Thickness(20, newPosition,0, 0);
                         tb.TextWrapping = TextWrapping.WrapWholeWords;
 
+                        TextBlock date = new TextBlock();
+                        date.FontSize = fontsize;
+                        date.FontWeight = FontWeights.Bold;
+                        date.Foreground = new SolidColorBrush(Colors.White);
+                        date.TextAlignment = TextAlignment.Right;
+                        if(sl.headline.date.ToString("H:mm") !=  "0:00")
+                            date.Text = sl.headline.date.ToString("H:mm");
+                        date.Margin = new Thickness(0, newPosition, 0, 0);
+                        date.TextWrapping = TextWrapping.WrapWholeWords;
                         sl.lastPosition = newPosition;
 
                         headlineBox.Children.Add(tb);
+                        headlineBox.Children.Add(date);
                     }
 
                     scrollPostion += 1;

@@ -255,12 +255,13 @@ namespace spiegel
             clock.checkSettings();
             updateables.Add(clock);
 
-            nosFeed = new Nos(uiRoot,config);
-            updateables.Add(nosFeed);
+           // nosFeed = new Nos(uiRoot,config);
+            //updateables.Add(nosFeed);
 
 
-            //gCal = new GCal(config.settings[Config.ConfigType.googleCalendarKey], uiRoot,config.settings[Config.ConfigType.googleRefreshKey]);//config.settings[Config.ConfigType.googleRefreshKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
-            //updateables.Add(gCal);
+            gCal = new GCal("AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A", uiRoot,config);//config.settings[Config.ConfigType.googleRefreshKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
+            gCal.checkSettings();
+            updateables.Add(gCal);
 
             weatherData = new WeatherForecast(uiRoot,config);
             weatherData.checkSettings();
@@ -289,6 +290,7 @@ namespace spiegel
                     }
                     if (((Widget)updateable).settingChanged())
                     {
+                        Debug.WriteLine("Setting Changed");
                         time = 0;
                     }
                     time--;

@@ -22,6 +22,14 @@ namespace spiegel
             this.endDate = endDate;
             this.location = location;
         }
+        public DateTime getStartDate()
+        {
+            return startDate;
+        }
+        public String getDescription()
+        {
+            return description;
+        }
         public override String ToString()
         {
             return description + "\n" + 
