@@ -25,7 +25,7 @@ namespace spiegel
         private HttpClient httpClient;
         private String access_token = "", refresh_token = "";
         private DateTime oldDateTime = DateTime.Now;
-        public GCal(String apiKey, Grid UiRoot, Config config) : base(UiRoot, "GoogleCalendar", config, 300, 600, new Thickness(10, 110, 10, 10), HorizontalAlignment.Left, VerticalAlignment.Top, TimeSpan.FromSeconds(10))
+        public GCal(String apiKey, Grid UiRoot, Config config) : base(UiRoot, "GoogleCalendar", config, 300, 600, new Thickness(10, 110, 10, 10), HorizontalAlignment.Left, VerticalAlignment.Top, TimeSpan.FromMinutes(10))
         {
             httpClient = new HttpClient();
             this.apiKey = apiKey;
@@ -161,8 +161,10 @@ namespace spiegel
                     {
                         JsonObject it = item.GetObject();
                         String id = it.GetNamedString("id");
+                        Debug.WriteLine(id);
                         CalendarItem[] tmpCalendarItems = await getItems(id);
                         calendarItems.AddRange(tmpCalendarItems);
+                        Debug.WriteLine(id);
                     }
                 }
                 catch (Exception e)
@@ -199,14 +201,12 @@ namespace spiegel
                         JsonObject it = item.GetObject();
                         JsonObject start = it.GetNamedObject("start");
                         JsonObject end = it.GetNamedObject("end");
+                        IJsonValue nul = null;
                         DateTime startDate, endDate;
-                        try
-                        {
-                            startDate = Convert.ToDateTime(start.GetNamedString("date"));
+                        if (start.TryGetValue("date", out nul)) {
+                            startDate = Convert.ToDateTime(nul);
                             endDate = Convert.ToDateTime(end.GetNamedString("date"));
-                        }
-                        catch
-                        {
+                        }else { 
                             startDate = Convert.ToDateTime(start.GetNamedString("dateTime"));
                             endDate = Convert.ToDateTime(end.GetNamedString("dateTime"));
                         }
@@ -215,7 +215,6 @@ namespace spiegel
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine(e.ToString());
                 }
                 return calendarItems.ToArray();
             }
@@ -262,7 +261,10 @@ namespace spiegel
                     refreshToken = postJson.GetNamedString("refresh_token");
                     config.setSetting(name, "refresh_token", refreshToken);
                 }
-                catch { }
+                catch
+                {
+                    Debug.WriteLine("GCAL: Something Happend !!!!");
+                }
 
                 return access_token;
             }

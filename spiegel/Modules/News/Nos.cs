@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -215,6 +216,7 @@ namespace spiegel
             }
             catch
             {
+                Debug.WriteLine("NOS: something");
                 throw new UnableToParseFeedException();
             }
         }

@@ -24,6 +24,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
+
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace spiegel
@@ -40,6 +41,7 @@ namespace spiegel
         private Clock clock;
         private Nos nosFeed;
         private GCal gCal;
+        private NiceMessage niceMessages;
         private WeatherForecast weatherData;
 
         private List<Updateable> updateables;
@@ -56,19 +58,20 @@ namespace spiegel
 
         private async void initializeNetwork()
         {
-            socketListener = new StreamSocketListener();
-            socketListener.ConnectionReceived += OnConnection;
-            socketListener.Control.KeepAlive = true;
+            
             try
             {
-                await socketListener.BindServiceNameAsync("8080");
+                socketListener = new StreamSocketListener();
+                socketListener.ConnectionReceived += OnConnection;
+                socketListener.Control.KeepAlive = true;
+                await socketListener.BindServiceNameAsync("8079");
 
                 Debug.WriteLine("Server Started");
 
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Cant Start a Socket: " + e);
+                Debug.WriteLine("Main: Cant Start a Socket: " + e);
             }
         }
 
@@ -162,7 +165,7 @@ namespace spiegel
                         }
                     } catch(Exception e)
                     {
-                        Debug.WriteLine(e.ToString());
+                        Debug.WriteLine("Main: Probaly cant parse");
                     }
                     //Send the line back to the remote client. 
 
@@ -171,7 +174,7 @@ namespace spiegel
                 }
             }catch(Exception e)
             {
-                //Debug.WriteLine(e.ToString());
+                Debug.WriteLine(e.ToString());
             }
         }
 
@@ -203,6 +206,7 @@ namespace spiegel
             moduleNames.Add("GoogleCalendar");
             moduleNames.Add("News");
             moduleNames.Add("Weather");
+            moduleNames.Add("NiceMessage");
 
 
             uiRoot = root;
@@ -255,13 +259,16 @@ namespace spiegel
             clock.checkSettings();
             updateables.Add(clock);
 
-           // nosFeed = new Nos(uiRoot,config);
+            // nosFeed = new Nos(uiRoot,config);
             //updateables.Add(nosFeed);
 
+            niceMessages = new NiceMessage(uiRoot, config);
+            updateables.Add(niceMessages);
 
             gCal = new GCal("AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A", uiRoot,config);//config.settings[Config.ConfigType.googleRefreshKey]); //"AIzaSyDNV7ivdpJI0UHZYYD56YIpBrIupRISN2A"
             gCal.checkSettings();
             updateables.Add(gCal);
+
 
             weatherData = new WeatherForecast(uiRoot,config);
             weatherData.checkSettings();

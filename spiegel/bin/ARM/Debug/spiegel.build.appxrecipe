@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Machine>DESKTOP-OLQBLV1</Machine>
+    <Machine>DESKTOP-BJ1OETJ</Machine>
     <WindowsUser>blazi</WindowsUser>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetOsVersion>10.0</TargetOsVersion>
@@ -9,16 +9,16 @@
     <SolutionConfiguration>Debug|ARM</SolutionConfiguration>
     <PackageArchitecture>arm</PackageArchitecture>
     <PackageIdentityName>5b321cfd-e4a3-4795-98e4-f75c8c18d19a</PackageIdentityName>
-    <IntermediateOutputPath>D:\Public\C#\HUD-Mirror\spiegel\obj\ARM\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>D:\HUD-Mirror\spiegel\obj\ARM\Debug\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="D:\Public\C#\HUD-Mirror\spiegel\bin\ARM\Debug\Core\AppxManifest.xml">
+    <AppXManifest Include="D:\HUD-Mirror\spiegel\bin\ARM\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\bin\ARM\Debug\spiegel.exe">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\bin\ARM\Debug\spiegel.exe">
       <PackagePath>entrypoint\spiegel.exe</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.ApplicationInsights\1.0.0\lib\portable-win81+wpa81\Microsoft.ApplicationInsights.dll">
@@ -39,9 +39,6 @@
     <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.Core.dll">
       <PackagePath>System.Core.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.dll">
-      <PackagePath>System.dll</PackagePath>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.Net.dll">
       <PackagePath>System.Net.dll</PackagePath>
     </AppxPackagedFile>
@@ -51,23 +48,26 @@
     <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.Runtime.Serialization.dll">
       <PackagePath>System.Runtime.Serialization.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.ServiceModel.dll">
-      <PackagePath>System.ServiceModel.dll</PackagePath>
-    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.ServiceModel.Web.dll">
       <PackagePath>System.ServiceModel.Web.dll</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.ServiceModel.dll">
+      <PackagePath>System.ServiceModel.dll</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.Windows.dll">
       <PackagePath>System.Windows.dll</PackagePath>
-    </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.Xml.dll">
-      <PackagePath>System.Xml.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.Xml.Linq.dll">
       <PackagePath>System.Xml.Linq.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.Xml.Serialization.dll">
       <PackagePath>System.Xml.Serialization.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.Xml.dll">
+      <PackagePath>System.Xml.dll</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.NETCore.Portable.Compatibility\1.0.0\lib\netcore50\System.dll">
+      <PackagePath>System.dll</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\Microsoft.VisualBasic\10.0.0\lib\netcore50\Microsoft.VisualBasic.dll">
       <PackagePath>Microsoft.VisualBasic.dll</PackagePath>
@@ -339,158 +339,161 @@
     <AppxPackagedFile Include="C:\Users\blazi\.nuget\packages\System.Xml.XmlSerializer\4.0.10\lib\netcore50\System.Xml.XmlSerializer.dll">
       <PackagePath>System.Xml.XmlSerializer.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\ApplicationInsights.config">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\ApplicationInsights.config">
       <PackagePath>ApplicationInsights.config</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\01d.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\01d.png">
       <PackagePath>Assets\01d.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\01n.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\01n.png">
       <PackagePath>Assets\01n.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\02d.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\02d.png">
       <PackagePath>Assets\02d.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\02n.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\02n.png">
       <PackagePath>Assets\02n.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\03d.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\03d.png">
       <PackagePath>Assets\03d.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\03n.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\03n.png">
       <PackagePath>Assets\03n.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\04d.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\04d.png">
       <PackagePath>Assets\04d.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\04n.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\04n.png">
       <PackagePath>Assets\04n.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\09d.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\09d.png">
       <PackagePath>Assets\09d.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\09n.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\09n.png">
       <PackagePath>Assets\09n.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\10d.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\10d.png">
       <PackagePath>Assets\10d.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\10n.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\10n.png">
       <PackagePath>Assets\10n.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\11d.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\11d.png">
       <PackagePath>Assets\11d.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\11n.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\11n.png">
       <PackagePath>Assets\11n.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\13d.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\13d.png">
       <PackagePath>Assets\13d.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\13n.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\13n.png">
       <PackagePath>Assets\13n.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\50d.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\50d.png">
       <PackagePath>Assets\50d.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\50n.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\50n.png">
       <PackagePath>Assets\50n.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\wind.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\SunSet.png">
+      <PackagePath>Assets\SunSet.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\wind.png">
       <PackagePath>Assets\wind.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\LockScreenLogo.scale-200.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\SplashScreen.scale-200.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\Square150x150Logo.scale-200.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\Square44x44Logo.scale-200.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\StoreLogo.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\Wide310x150Logo.scale-200.png">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Assets\Magic_Mirror.jpg">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\Magic_Mirror.jpg">
       <PackagePath>Assets\Magic_Mirror.jpg</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\Properties\Default.rd.xml">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\bin\ARM\Debug\spiegel.xr.xml">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\bin\ARM\Debug\spiegel.xr.xml">
       <PackagePath>spiegel.xr.xml</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\bin\ARM\Debug\resources.pri">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\bin\ARM\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="D:\Public\C#\HUD-Mirror\spiegel\bin\ARM\Debug\Core\spiegel.exe">
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\bin\ARM\Debug\Core\spiegel.exe">
       <PackagePath>spiegel.exe</PackagePath>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\">
       <Name>Microsoft.NET.CoreRuntime.1.0</Name>
-      <Version>1.0.23430.0</Version>
+      <Version>1.0.23819.0</Version>
       <Architecture>ARM</Architecture>
-      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23430.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23819.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\.\AppX\ARM\Microsoft.NET.CoreRuntime.1.0.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\">
       <Name>Microsoft.NET.CoreRuntime.1.0</Name>
-      <Version>1.0.23430.0</Version>
+      <Version>1.0.23819.0</Version>
       <Architecture>x64</Architecture>
-      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23430.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23819.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\.\AppX\x64\Microsoft.NET.CoreRuntime.1.0.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\">
       <Name>Microsoft.NET.CoreRuntime.1.0</Name>
-      <Version>1.0.23430.0</Version>
+      <Version>1.0.23819.0</Version>
       <Architecture>x86</Architecture>
-      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23430.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23819.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\.\AppX\x86\Microsoft.NET.CoreRuntime.1.0.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
       <Name>Microsoft.VCLibs.140.00.Debug</Name>
-      <Version>14.0.22929.0</Version>
+      <Version>14.0.23918.0</Version>
       <Architecture>ARM</Architecture>
-      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.22929.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.23918.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\ARM\Microsoft.VCLibs.ARM.Debug.14.00.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
       <Name>Microsoft.VCLibs.140.00.Debug</Name>
-      <Version>14.0.22929.0</Version>
+      <Version>14.0.23918.0</Version>
       <Architecture>x64</Architecture>
-      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.22929.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.23918.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\x64\Microsoft.VCLibs.x64.Debug.14.00.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
       <Name>Microsoft.VCLibs.140.00.Debug</Name>
-      <Version>14.0.22929.0</Version>
+      <Version>14.0.23918.0</Version>
       <Architecture>x86</Architecture>
-      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.22929.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.23918.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\x86\Microsoft.VCLibs.x86.Debug.14.00.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>

@@ -96,7 +96,7 @@ namespace spiegel
                 return false;
             }catch(Exception e)
             {
-                Debug.WriteLine(e.ToString());
+                Debug.WriteLine("Config: Settings have fucked us over");
                 return false;
             }
         }
@@ -145,6 +145,7 @@ namespace spiegel
             }
             catch
             {
+                Debug.WriteLine("Config:  Unable to read config");
                 throw new UnableToReadConfigurationFileException();
             }
 
@@ -186,7 +187,14 @@ namespace spiegel
             try {
                 return settings[moduleName][setting];
             }
-            catch(Exception e)
+            catch(KeyNotFoundException e2)
+            {
+                Debug.WriteLine(moduleName);
+                Debug.WriteLine(setting);
+                Debug.WriteLine(e2.ToString());
+                return "";
+            }
+            catch(UnableToAsignConfigurationSettingsException e)
             {
                 Debug.WriteLine(moduleName);
                 Debug.WriteLine(setting);
@@ -203,6 +211,7 @@ namespace spiegel
             }
             catch (Exception e)
             {
+                Debug.WriteLine("lol");
                 Debug.WriteLine(e.ToString());
             }
         }
