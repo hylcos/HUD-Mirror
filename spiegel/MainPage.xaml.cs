@@ -15,6 +15,7 @@ using Windows.Networking.Connectivity;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -49,6 +50,7 @@ namespace spiegel
 
         public MainPage()
         {
+            ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
             this.InitializeComponent();
             checkBoot();
             initializeNetwork();

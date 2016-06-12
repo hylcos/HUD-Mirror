@@ -432,6 +432,9 @@
     <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\Magic_Mirror.jpg">
       <PackagePath>Assets\Magic_Mirror.jpg</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Assets\XMLFile1.xml">
+      <PackagePath>Assets\XMLFile1.xml</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="D:\HUD-Mirror\spiegel\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
     </AppxPackagedFile>

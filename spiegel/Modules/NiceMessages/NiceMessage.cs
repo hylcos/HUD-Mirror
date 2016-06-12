@@ -18,7 +18,7 @@ namespace spiegel
     {
         private Dictionary<string,List<string>> messages;
         private int night = 5, morning = 12, afternoon = 17, evening = 24;
-        public NiceMessage(Grid UiRoot, Config config) : base(UiRoot, "NiceMessage", config, 1000, 40, new Thickness(0,400,0,0), HorizontalAlignment.Center, VerticalAlignment.Center, TimeSpan.FromSeconds(5))
+        public NiceMessage(Grid UiRoot, Config config) : base(UiRoot, "NiceMessage", config, 1000, 40, new Thickness(0,400,0,0), HorizontalAlignment.Center, VerticalAlignment.Center, TimeSpan.FromHours(1))
         {
             string XMLPath = Path.Combine(Package.Current.InstalledLocation.Path + "\\Assets", "XMLFile1.xml");
             XDocument loadedData = XDocument.Load(XMLPath);

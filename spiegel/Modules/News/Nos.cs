@@ -50,7 +50,7 @@ namespace spiegel
         private Grid headlineBox;
         private List<ScrollSlot> scrollSlots;
 
-        public Nos(Grid UiRoot,Config config) : base(UiRoot, "News",config,800, 300, new Thickness(10, 110, 10, 10), HorizontalAlignment.Right, VerticalAlignment.Top, TimeSpan.FromSeconds(30))
+        public Nos(Grid UiRoot,Config config) : base(UiRoot, "News",config,800, 300, new Thickness(10, 110, 10, 10), HorizontalAlignment.Right, VerticalAlignment.Top, TimeSpan.FromMinutes(5))
         {
 
             state = config.getEnabled(name);
