@@ -130,7 +130,13 @@ namespace spiegel
         public override async void update()
         {
             //headlineBox.Children.Clear();
-            headlines = await getHeadlines();
+            try
+            {
+                headlines = await getHeadlines();
+            }catch(UnableToParseFeedException e)
+            {
+                Debug.WriteLine("You probally dont have An internet connection");
+            }
             //clearWidget();
 
             

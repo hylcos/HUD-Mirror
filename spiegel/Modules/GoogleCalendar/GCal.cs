@@ -80,14 +80,14 @@ namespace spiegel
                         tb.FontWeight = FontWeights.Bold;
                         tb.FontSize = 14;
                         tb.Foreground = new SolidColorBrush(Colors.White);
-                        tb.Text = item.getStartDate().ToString("H:mm");
+                        tb.Text = item.getStartDate().ToString("dd/MM - H:mm");
                         tb.Margin = new Thickness(0, tb.FontSize * (i), 0, 0);
                         tb.TextWrapping = TextWrapping.WrapWholeWords;
 
                         TextBlock name = new TextBlock();
                         name.Text += item.description;
                         name.FontSize = 14;
-                        name.Margin = new Thickness(50, name.FontSize * (i), 0, 0);
+                        name.Margin = new Thickness(90, name.FontSize * (i), 0, 0);
                         //name.TextWrapping = TextWrapping.WrapWholeWords;
                         name.Foreground = new SolidColorBrush(Colors.White);
 
@@ -195,6 +195,8 @@ namespace spiegel
                 try
                 {
                     json = JsonObject.Parse(await _httpClient.GetStringAsync(url));
+
+                    Debug.WriteLine(json);
                     JsonArray jsonArray = json.GetNamedArray("items");
                     foreach (JsonValue item in jsonArray)
                     {

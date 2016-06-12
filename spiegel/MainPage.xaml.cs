@@ -259,8 +259,8 @@ namespace spiegel
             clock.checkSettings();
             updateables.Add(clock);
 
-            // nosFeed = new Nos(uiRoot,config);
-            //updateables.Add(nosFeed);
+            nosFeed = new Nos(uiRoot,config);
+            updateables.Add(nosFeed);
 
             niceMessages = new NiceMessage(uiRoot, config);
             updateables.Add(niceMessages);

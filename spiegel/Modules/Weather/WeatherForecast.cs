@@ -51,101 +51,107 @@ namespace spiegel
         }
         public async override void update()
         {
-            if (state)
+            try
             {
-                Debug.WriteLine("Weather Forecast UPDATE");
-                Grid grid = new Grid();
-                Forecast forecast = await getForecast();
-                //Image
-                Image image = new Image();
-                BitmapImage bimage = new BitmapImage(new Uri("ms-appx:///Assets/" + forecast.icon + ".png"));
-                image.Source = bimage;
-                image.RenderTransformOrigin = new Point(0.5, 0.5);
-                image.Width = 50;
-                image.Height = 50;
-                image.Margin = new Thickness(0, 30, 0, 50);
+                if (state)
+                {
+                    Debug.WriteLine("Weather Forecast UPDATE");
+                    Grid grid = new Grid();
+                    Forecast forecast = await getForecast();
+                    //Image
+                    Image image = new Image();
+                    BitmapImage bimage = new BitmapImage(new Uri("ms-appx:///Assets/" + forecast.icon + ".png"));
+                    image.Source = bimage;
+                    image.RenderTransformOrigin = new Point(0.5, 0.5);
+                    image.Width = 50;
+                    image.Height = 50;
+                    image.Margin = new Thickness(0, 30, 0, 50);
 
-                TextBlock temp2 = new TextBlock();
-                temp2.Text = forecast.temp.Substring(0,2) + "º";
-                temp2.FontSize = 30;
-                temp2.FontWeight = FontWeights.Bold;
-                temp2.Foreground = new SolidColorBrush(Colors.White);
-                temp2.Margin = new Thickness(150, 40, 0, 0);
-                
-                TextBlock tb = new TextBlock();
-                tb.Text = "\t" + forecast.sunrise.Hour + ":" + forecast.sunrise.Minute + "\t" + forecast.sunset.Hour + ":" + forecast.sunset.Minute;
-                tb.FontSize = 14;
-                tb.Foreground = new SolidColorBrush(Colors.White);
-                tb.HorizontalAlignment = HorizontalAlignment.Center;
-                tb.Margin = new Thickness(0, 80, 0, 0);
+                    TextBlock temp2 = new TextBlock();
+                    temp2.Text = forecast.temp.Substring(0, 2) + "º";
+                    temp2.FontSize = 30;
+                    temp2.FontWeight = FontWeights.Bold;
+                    temp2.Foreground = new SolidColorBrush(Colors.White);
+                    temp2.Margin = new Thickness(150, 40, 0, 0);
 
-                Image sunrise = new Image();
-                BitmapImage _sunrise = new BitmapImage(new Uri("ms-appx:///Assets/SunSet.png"));
-                sunrise.Source = _sunrise;
-                sunrise.RenderTransformOrigin = new Point(0.5, 0.5);
-                sunrise.Width = 14;
-                sunrise.Height = 14;
-                sunrise.Margin = new Thickness(0, 57, 55, 0);
+                    TextBlock tb = new TextBlock();
+                    tb.Text = "\t" + forecast.sunrise.Hour + ":" + forecast.sunrise.Minute + "\t" + forecast.sunset.Hour + ":" + forecast.sunset.Minute;
+                    tb.FontSize = 14;
+                    tb.Foreground = new SolidColorBrush(Colors.White);
+                    tb.HorizontalAlignment = HorizontalAlignment.Center;
+                    tb.Margin = new Thickness(0, 80, 0, 0);
 
-                Image sunset = new Image();
-                BitmapImage _sunset = new BitmapImage(new Uri("ms-appx:///Assets/SunSet.png"));
-                CompositeTransform ts = new CompositeTransform();
-                ts.Rotation = Convert.ToDouble(180);
-                sunset.RenderTransform = ts;
-                sunset.Source = _sunset;
-                sunset.RenderTransformOrigin = new Point(0.5, 0.5);
-                sunset.Width = 14;
-                sunset.Height = 14;
-                sunset.Margin = new Thickness(55, 57, 0, 0);
-                /*
-                 //Temp
-                 TextBlock temp = new TextBlock();
-                 temp.Text = "Min: " + forecast.minTemp + "  --  Max: " + forecast.maxTemp;
-                 temp.FontSize = 10;
-                 temp.Foreground = new SolidColorBrush(Colors.White);
-                 temp.Margin = new Thickness(105, 0, 0, 0);
+                    Image sunrise = new Image();
+                    BitmapImage _sunrise = new BitmapImage(new Uri("ms-appx:///Assets/SunSet.png"));
+                    sunrise.Source = _sunrise;
+                    sunrise.RenderTransformOrigin = new Point(0.5, 0.5);
+                    sunrise.Width = 14;
+                    sunrise.Height = 14;
+                    sunrise.Margin = new Thickness(0, 57, 55, 0);
 
-                
+                    Image sunset = new Image();
+                    BitmapImage _sunset = new BitmapImage(new Uri("ms-appx:///Assets/SunSet.png"));
+                    CompositeTransform ts = new CompositeTransform();
+                    ts.Rotation = Convert.ToDouble(180);
+                    sunset.RenderTransform = ts;
+                    sunset.Source = _sunset;
+                    sunset.RenderTransformOrigin = new Point(0.5, 0.5);
+                    sunset.Width = 14;
+                    sunset.Height = 14;
+                    sunset.Margin = new Thickness(55, 57, 0, 0);
+                    /*
+                     //Temp
+                     TextBlock temp = new TextBlock();
+                     temp.Text = "Min: " + forecast.minTemp + "  --  Max: " + forecast.maxTemp;
+                     temp.FontSize = 10;
+                     temp.Foreground = new SolidColorBrush(Colors.White);
+                     temp.Margin = new Thickness(105, 0, 0, 0);
 
-                 //WindSpeed
-                 Image wind = new Image();
-                 BitmapImage windbimage = new BitmapImage(new Uri("ms-appx:///Assets/wind.png"));
-                 CompositeTransform ts = new CompositeTransform();
-                 ts.Rotation = Convert.ToDouble(forecast.windDir);
-                 wind.Source = windbimage;
-                 wind.RenderTransform = ts;
-                 wind.RenderTransformOrigin = new Point(0.5, 0.5);
-                 wind.Width = 50;
-                 wind.Height = 50;
-                 wind.Margin = new Thickness(100, 50, 0, 0);
 
-                 TextBlock temp3 = new TextBlock();
-                 temp2.Text = "Location: " + forecast.location;
-                 temp2.FontSize = 10;
-                 temp2.Foreground = new SolidColorBrush(Colors.White);
-                 temp2.Margin = new Thickness(0,100, 0, 0);
 
-                 grid.Children.Add(temp);
-                 grid.Children.Add(temp2);
-                 grid.Children.Add(temp3);
-                 grid.Children.Add(wind);
-                 */
+                     //WindSpeed
+                     Image wind = new Image();
+                     BitmapImage windbimage = new BitmapImage(new Uri("ms-appx:///Assets/wind.png"));
+                     CompositeTransform ts = new CompositeTransform();
+                     ts.Rotation = Convert.ToDouble(forecast.windDir);
+                     wind.Source = windbimage;
+                     wind.RenderTransform = ts;
+                     wind.RenderTransformOrigin = new Point(0.5, 0.5);
+                     wind.Width = 50;
+                     wind.Height = 50;
+                     wind.Margin = new Thickness(100, 50, 0, 0);
 
-                grid.Children.Add(tb);
-                grid.Children.Add(temp2);
-                grid.Children.Add(image);
-                grid.Children.Add(sunset);
-                grid.Children.Add(sunrise);
-                clearWidget();
-                addToWidget(grid);
+                     TextBlock temp3 = new TextBlock();
+                     temp2.Text = "Location: " + forecast.location;
+                     temp2.FontSize = 10;
+                     temp2.Foreground = new SolidColorBrush(Colors.White);
+                     temp2.Margin = new Thickness(0,100, 0, 0);
+
+                     grid.Children.Add(temp);
+                     grid.Children.Add(temp2);
+                     grid.Children.Add(temp3);
+                     grid.Children.Add(wind);
+                     */
+
+                    grid.Children.Add(tb);
+                    grid.Children.Add(temp2);
+                    grid.Children.Add(image);
+                    grid.Children.Add(sunset);
+                    grid.Children.Add(sunrise);
+                    clearWidget();
+                    addToWidget(grid);
+                }
+                else
+                {
+                    clearWidget();
+                }
+
+                //Debug.WriteLine("Weather Forecast: " + Marshal.SizeOf(grid));
             }
-            else
+            catch (Exception e)
             {
-                clearWidget();
-            }      
-                                                   
-            //Debug.WriteLine("Weather Forecast: " + Marshal.SizeOf(grid));
-            
+                Debug.WriteLine("You probly dont have internet");
+            }
         }
         public async Task<Forecast> getForecast()
         {
